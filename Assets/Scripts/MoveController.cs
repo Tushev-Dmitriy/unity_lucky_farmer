@@ -29,18 +29,14 @@ public class MoveController : MonoBehaviour, IDragHandler, IEndDragHandler
         buttonImage.sprite = pressedSprite;
         if (RectTransformUtility.ScreenPointToLocalPointInRectangle(joystickBackground, eventData.position, eventData.pressEventCamera, out position))
         {
-            // Нормализуем координаты в диапазоне [-1, 1]
             position.x = Mathf.Clamp(position.x / (joystickBackground.sizeDelta.x / 2), -1f, 1f);
             position.y = Mathf.Clamp(position.y / (joystickBackground.sizeDelta.y / 2), -1f, 1f);
 
-            // Вычисляем позицию джойстика относительно фона джойстика
             Vector2 inputVector = new Vector2(position.x, position.y);
             inputVector = (inputVector.magnitude > 1.0f) ? inputVector.normalized : inputVector;
 
-            // Устанавливаем позицию джойстика
             joystick.anchoredPosition = new Vector2(inputVector.x * (joystickBackground.sizeDelta.x / 3), inputVector.y * (joystickBackground.sizeDelta.y / 3));
 
-            // Устанавливаем направление перемещения
             moveDirection = inputVector;
         }
     }
