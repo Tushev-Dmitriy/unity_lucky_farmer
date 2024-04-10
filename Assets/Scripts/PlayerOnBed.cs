@@ -10,86 +10,86 @@ public class PlayerOnBed : MonoBehaviour
     private bool onPlowBed = false;
 
     private Material bedMaterial;
-    private Color whiteRed = new Color(255, 118, 118);
-    private Color whiteGreen = new Color(187, 255, 187);
-    private Color whiteBlue = new Color(139, 146, 255);
-    
-    public PlantsUsing plantUsing;
+    private Color whiteRed = new Color(1f, 0.46f, 0.46f);
+    private Color whiteGreen = new Color(0.73f, 1f, 0.73f);
+    private Color whiteOrange = new Color(1, 0.91f, 0.65f);
+    private Color stockColor = new Color(0.52f, 0.39f, 0.26f);
 
-    private void Start()
-    {
-        GameObject terrain = GameObject.FindGameObjectWithTag("emptyBed");
-        Renderer renderer = terrain.GetComponent<Renderer>();
-    }
+    public PlantsUsing plantUsing;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "emptyBed")
+        if (other.gameObject.CompareTag("emptyBed"))
         {
             onEmptyBed = true;
-        } else if (other.gameObject.tag == "growBed")
+            bedMaterial = other.gameObject.GetComponent<Renderer>().material;
+            bedMaterial.color = whiteOrange;
+        }
+        else if (other.gameObject.CompareTag("growBed"))
         {
             onGrowBed = true;
-        } else if (other.gameObject.tag == "readyBed")
+            bedMaterial = other.gameObject.GetComponent<Renderer>().material;
+            bedMaterial.color = whiteOrange;
+        }
+        else if (other.gameObject.CompareTag("readyBed"))
         {
             onReadyBed = true;
-        } else if (other.gameObject.tag == "plowBed")
+            bedMaterial = other.gameObject.GetComponent<Renderer>().material;
+            bedMaterial.color = whiteOrange;
+        }
+        else if (other.gameObject.CompareTag("plowBed"))
         {
             onPlowBed = true;
+            bedMaterial = other.gameObject.GetComponent<Renderer>().material;
+            bedMaterial.color = whiteOrange;
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.tag == "emptyBed")
+        if (other.gameObject.CompareTag("emptyBed"))
         {
-            if (plantUsing.GetBedStatus(2))
-            {
-                other.gameObject.tag = "growBed";
-            }
+            other.gameObject.tag = "growBed";
         }
-        else if (other.gameObject.tag == "growBed")
+        else if (other.gameObject.CompareTag("growBed"))
         {
-            if (plantUsing.GetBedStatus(3))
-            {
-                other.gameObject.tag = "readyBed";
-            }
+            other.gameObject.tag = "readyBed";
         }
-        else if (other.gameObject.tag == "readyBed")
+        else if (other.gameObject.CompareTag("readyBed"))
         {
-            if (plantUsing.GetBedStatus(4))
-            {
-                other.gameObject.tag = "plowBed";
-            }
+            other.gameObject.tag = "plowBed";
         }
-        else if (other.gameObject.tag == "plowBed")
+        else if (other.gameObject.CompareTag("plowBed"))
         {
-            if (plantUsing.GetBedStatus(1))
-            {
-                other.gameObject.tag = "emptyBed";
-            }
+            other.gameObject.tag = "emptyBed";
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        bedMaterial = other.gameObject.GetComponent<Material>();
-        if (other.gameObject.tag == "emptyBed")
+        if (other.gameObject.CompareTag("emptyBed"))
         {
             onEmptyBed = false;
-            bedMaterial.color = whiteBlue;
+            bedMaterial = other.gameObject.GetComponent<Renderer>().material;
+            bedMaterial.color = stockColor;
         }
-        else if (other.gameObject.tag == "growBed")
+        else if (other.gameObject.CompareTag("growBed"))
         {
             onGrowBed = false;
+            bedMaterial = other.gameObject.GetComponent<Renderer>().material;
+            bedMaterial.color = stockColor;
         }
-        else if (other.gameObject.tag == "readyBed")
+        else if (other.gameObject.CompareTag("readyBed"))
         {
             onReadyBed = false;
+            bedMaterial = other.gameObject.GetComponent<Renderer>().material;
+            bedMaterial.color = stockColor;
         }
-        else if (other.gameObject.tag == "plowBed")
+        else if (other.gameObject.CompareTag("plowBed"))
         {
             onPlowBed = false;
+            bedMaterial = other.gameObject.GetComponent<Renderer>().material;
+            bedMaterial.color = stockColor;
         }
     }
 

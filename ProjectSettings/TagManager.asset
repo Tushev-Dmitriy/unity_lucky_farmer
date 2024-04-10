@@ -9,6 +9,8 @@ TagManager:
   - readyBed
   - plowBed
   - shovel
+  - weed
+  - seed
   layers:
   - Default
   - TransparentFX
