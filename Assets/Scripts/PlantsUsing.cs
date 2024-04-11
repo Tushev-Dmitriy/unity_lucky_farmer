@@ -12,6 +12,7 @@ public class PlantsUsing : MonoBehaviour
     public GameObject weedPrefab;
     public GameObject endWeedPrefab;
     public Transform bed;
+    public PlayerOnBed playerOnBed;
 
     private Vector3[] weedSpawnPos = new Vector3[8] {new Vector3(0.45f, 0f, 0f), new Vector3(0.45f, 0f, -0.50f), new Vector3(0.45f, 0f, 0.50f),
                                                      new Vector3(0f, 0f, 0.50f), new Vector3(-0.45f, 0f, 0.50f), new Vector3(-0.45f, 0f, 0f), 
@@ -48,17 +49,21 @@ public class PlantsUsing : MonoBehaviour
 
     private void PlantSeed()
     {
-
         if (spawnCount < 1)
         {
-            Debug.Log("Plant");
-            spawnCount = 1;
-            bedStatus = BedStatus.GROW;
-            GameObject startSeed = Instantiate(seedPrefab, bed.position + plantPos, Quaternion.identity);
-            startSeed.transform.parent = bed;
-            startSeed.transform.localScale = new Vector3(100, 100, 100);
-            StartCoroutine(SeedGrowthRoutine());
-            StartCoroutine(SpawnWeeds());
+            bed = playerOnBed.bed.transform;
+            if (bed != null)
+            {
+                Debug.Log("Plant");
+                spawnCount = 1;
+                bedStatus = BedStatus.GROW;
+
+                GameObject startSeed = Instantiate(seedPrefab, bed.position + plantPos, Quaternion.identity);
+                startSeed.transform.parent = bed;
+                startSeed.transform.localScale = new Vector3(100, 100, 100);
+                StartCoroutine(SeedGrowthRoutine());
+                StartCoroutine(SpawnWeeds());
+            }
         }
     }
 
