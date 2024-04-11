@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -22,9 +23,9 @@ public class PlantsUsing : MonoBehaviour
     private enum BedStatus { EMPTY, GROW, READY, PLOW };
     private BedStatus bedStatus = BedStatus.EMPTY;
 
-    private float weedSpawnTime = 0f;
     private bool isGoodPlant = true;
     private GameObject weed;
+    private float duration = 30f;
     IEnumerator SeedGrowthRoutine()
     {
         yield return new WaitForSeconds(60);
@@ -41,15 +42,16 @@ public class PlantsUsing : MonoBehaviour
             GameObject plant = Instantiate(tomatoPlantPrefab, bed.position + plantPos, Quaternion.identity);
             plant.transform.parent = bed;
             plant.transform.localScale = new Vector3(100, 100, 100);
-            Debug.Log("Plant fully grown");
+            Debug.Log("Plant grown");
         }
     }
 
     private void PlantSeed()
     {
+
         if (spawnCount < 1)
         {
-            Debug.Log("Planting seed");
+            Debug.Log("Plant");
             spawnCount = 1;
             bedStatus = BedStatus.GROW;
             GameObject startSeed = Instantiate(seedPrefab, bed.position + plantPos, Quaternion.identity);
@@ -64,13 +66,16 @@ public class PlantsUsing : MonoBehaviour
     {
         while (bedStatus == BedStatus.GROW)
         {
-            weedSpawnTime = Time.time;
             yield return new WaitForSeconds(10f);
             Vector3 randomWeedPos = weedSpawnPos[Random.Range(0, weedSpawnPos.Length)];
 
             weed = Instantiate(weedPrefab, bed.position + randomWeedPos, Quaternion.identity);
+            weed.tag = "weed";
             weed.transform.parent = bed;
             weed.transform.localScale = new Vector3(50, 50, 50);
+
+            StartCoroutine(WeedTimer());
+            isGoodPlant = false;
 
             yield return new WaitForSeconds(Random.Range(5f, 10f));
         }
@@ -78,34 +83,45 @@ public class PlantsUsing : MonoBehaviour
 
     private void RemoveWeed()
     {
-        Debug.Log("Removing weed");
+        Debug.Log("Remove");
         GameObject[] weeds = GameObject.FindGameObjectsWithTag("weed");
         foreach (GameObject weed in weeds)
         {
             Destroy(weed);
         }
         weed = null;
-        weedSpawnTime = 0f;
+        isGoodPlant = true;
+        StopCoroutine(WeedTimer());
     }
 
-    private void Update()
+    IEnumerator WeedTimer()
     {
-        if (Time.time - weedSpawnTime > 30f)
+        if (isGoodPlant)
         {
-            Destroy(bed.GetChild(0).gameObject);
-            StopCoroutine(SpawnWeeds());
-            GameObject[] weeds = GameObject.FindGameObjectsWithTag("weed");
-            for (int i = 0; i < weeds.Length; i++)
-            {
-                Destroy(weeds[i]);
-            }
-            GameObject startSeed = Instantiate(endWeedPrefab, bed.position + plantPos, Quaternion.identity);
-            startSeed.transform.parent = bed;
-            startSeed.transform.localScale = new Vector3(100, 100, 100);
-            isGoodPlant = false;
-            bedStatus = BedStatus.READY;
+            yield break;
+        } else
+        {
+            yield return new WaitForSeconds(duration);
+            DestroySeed();
         }
     }
+
+    private void DestroySeed()
+    {
+        Destroy(bed.GetChild(0).gameObject);
+        StopCoroutine(SpawnWeeds());
+        GameObject[] weeds = GameObject.FindGameObjectsWithTag("weed");
+        for (int i = 0; i < weeds.Length; i++)
+        {
+            Destroy(weeds[i]);
+        }
+        GameObject startSeed = Instantiate(endWeedPrefab, bed.position + plantPos, Quaternion.identity);
+        startSeed.transform.parent = bed;
+        startSeed.transform.localScale = new Vector3(100, 100, 100);
+        isGoodPlant = false;
+        bedStatus = BedStatus.READY;
+    }
+
 
     public void InteractWithBed()
     {
@@ -134,7 +150,7 @@ public class PlantsUsing : MonoBehaviour
 
     private void Harvest()
     {
-        Debug.Log("Harvesting plant");
+        Debug.Log("Harvest");
         bedStatus = BedStatus.PLOW;
     }
 
@@ -146,7 +162,7 @@ public class PlantsUsing : MonoBehaviour
 
     private void PlowBed()
     {
-        Debug.Log("Plowing bed");
+        Debug.Log("Plow");
         bedStatus = BedStatus.EMPTY;
     }
 }

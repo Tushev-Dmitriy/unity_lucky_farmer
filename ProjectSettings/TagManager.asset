@@ -11,6 +11,8 @@ TagManager:
   - shovel
   - weed
   - seed
+  - spawnBed
+  - terrain
   layers:
   - Default
   - TransparentFX

@@ -10,8 +10,6 @@ public class PlayerOnBed : MonoBehaviour
     private bool onPlowBed = false;
 
     private Material bedMaterial;
-    private Color whiteRed = new Color(1f, 0.46f, 0.46f);
-    private Color whiteGreen = new Color(0.73f, 1f, 0.73f);
     private Color whiteOrange = new Color(1, 0.91f, 0.65f);
     private Color stockColor = new Color(0.52f, 0.39f, 0.26f);
 
@@ -19,25 +17,25 @@ public class PlayerOnBed : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("emptyBed"))
+        if (other.tag == "emptyBed")
         {
             onEmptyBed = true;
             bedMaterial = other.gameObject.GetComponent<Renderer>().material;
             bedMaterial.color = whiteOrange;
         }
-        else if (other.gameObject.CompareTag("growBed"))
+        else if (other.tag == "growBed")
         {
             onGrowBed = true;
             bedMaterial = other.gameObject.GetComponent<Renderer>().material;
             bedMaterial.color = whiteOrange;
         }
-        else if (other.gameObject.CompareTag("readyBed"))
+        else if (other.tag == "readyBed")
         {
             onReadyBed = true;
             bedMaterial = other.gameObject.GetComponent<Renderer>().material;
             bedMaterial.color = whiteOrange;
         }
-        else if (other.gameObject.CompareTag("plowBed"))
+        else if (other.tag == "plowBed")
         {
             onPlowBed = true;
             bedMaterial = other.gameObject.GetComponent<Renderer>().material;
@@ -47,45 +45,45 @@ public class PlayerOnBed : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.gameObject.CompareTag("emptyBed"))
+        if (other.tag == "emptyBed")
         {
-            other.gameObject.tag = "growBed";
+            other.tag = "growBed";
         }
-        else if (other.gameObject.CompareTag("growBed"))
+        else if (other.tag == "growBed")
         {
-            other.gameObject.tag = "readyBed";
+            other.tag = "readyBed";
         }
-        else if (other.gameObject.CompareTag("readyBed"))
+        else if (other.tag == "readyBed")
         {
-            other.gameObject.tag = "plowBed";
+            other.tag = "plowBed";
         }
-        else if (other.gameObject.CompareTag("plowBed"))
+        else if (other.tag == "plowBed")
         {
-            other.gameObject.tag = "emptyBed";
+            other.tag = "emptyBed";
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.CompareTag("emptyBed"))
+        if (other.tag == "emptyBed")
         {
             onEmptyBed = false;
             bedMaterial = other.gameObject.GetComponent<Renderer>().material;
             bedMaterial.color = stockColor;
         }
-        else if (other.gameObject.CompareTag("growBed"))
+        else if (other.tag == "growBed")
         {
             onGrowBed = false;
             bedMaterial = other.gameObject.GetComponent<Renderer>().material;
             bedMaterial.color = stockColor;
         }
-        else if (other.gameObject.CompareTag("readyBed"))
+        else if (other.tag == "readyBed")
         {
             onReadyBed = false;
             bedMaterial = other.gameObject.GetComponent<Renderer>().material;
             bedMaterial.color = stockColor;
         }
-        else if (other.gameObject.CompareTag("plowBed"))
+        else if (other.tag == "plowBed")
         {
             onPlowBed = false;
             bedMaterial = other.gameObject.GetComponent<Renderer>().material;
