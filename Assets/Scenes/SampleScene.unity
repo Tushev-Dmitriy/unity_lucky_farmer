@@ -2866,6 +2866,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b12e2e5eb23de23429d9d67445b1bac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canSpawn: 0
 --- !u!1 &654536478
 GameObject:
   m_ObjectHideFlags: 0
@@ -8232,6 +8233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrainPrefab: {fileID: 649861015}
   playerInGame: {fileID: 286056996}
+  terrainColor: {fileID: 649861022}
   spawnTerrain: 0
 --- !u!1 &2126817255
 GameObject:
