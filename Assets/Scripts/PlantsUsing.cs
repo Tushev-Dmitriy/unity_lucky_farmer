@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -13,6 +14,9 @@ public class PlantsUsing : MonoBehaviour
     public GameObject endWeedPrefab;
     public Transform bed;
     public PlayerOnBed playerOnBed;
+    public int shoveldurability = 100;
+    public GameObject logText;
+    public TMP_Text log_Text;
 
     private Vector3[] weedSpawnPos = new Vector3[8] {new Vector3(0.45f, 0f, 0f), new Vector3(0.45f, 0f, -0.50f), new Vector3(0.45f, 0f, 0.50f),
                                                      new Vector3(0f, 0f, 0.50f), new Vector3(-0.45f, 0f, 0.50f), new Vector3(-0.45f, 0f, 0f), 
@@ -27,6 +31,7 @@ public class PlantsUsing : MonoBehaviour
     private bool isGoodPlant = true;
     private GameObject weed;
     private float duration = 30f;
+
     IEnumerator SeedGrowthRoutine()
     {
         yield return new WaitForSeconds(60);
@@ -72,6 +77,12 @@ public class PlantsUsing : MonoBehaviour
         while (bedStatus == BedStatus.GROW)
         {
             yield return new WaitForSeconds(10f);
+
+            if (bedStatus != BedStatus.GROW)
+            {
+                yield break;
+            }
+
             Vector3 randomWeedPos = weedSpawnPos[Random.Range(0, weedSpawnPos.Length)];
 
             weed = Instantiate(weedPrefab, bed.position + randomWeedPos, Quaternion.identity);
@@ -88,13 +99,14 @@ public class PlantsUsing : MonoBehaviour
 
     private void RemoveWeed()
     {
-        Debug.Log("Remove");
         GameObject[] weeds = GameObject.FindGameObjectsWithTag("weed");
         foreach (GameObject weed in weeds)
         {
-            Destroy(weed);
+            if (weed.transform.parent == playerOnBed.nowBed)
+            {
+                Destroy(weed);
+            }
         }
-        weed = null;
         isGoodPlant = true;
         StopCoroutine(WeedTimer());
     }
@@ -130,27 +142,49 @@ public class PlantsUsing : MonoBehaviour
 
     public void InteractWithBed()
     {
-        switch (bedStatus)
+        if (shoveldurability > 0)
         {
-            case BedStatus.EMPTY:
-                PlantSeed();
-                break;
-            case BedStatus.GROW:
-                RemoveWeed();
-                break;
-            case BedStatus.READY:
-                if (isGoodPlant)
-                {
-                    Harvest();
-                } else
-                {
-                    Revival();
-                }
-                break;
-            case BedStatus.PLOW:
-                PlowBed();
-                break;
+            shoveldurability--;
+            switch (bedStatus)
+            {
+                case BedStatus.EMPTY:
+                    PlantSeed();
+                    break;
+                case BedStatus.GROW:
+                    RemoveWeed();
+                    break;
+                case BedStatus.READY:
+                    if (isGoodPlant)
+                    {
+                        Harvest();
+                    }
+                    else
+                    {
+                        Revival();
+                    }
+                    break;
+                case BedStatus.PLOW:
+                    PlowBed();
+                    break;
+            }
         }
+        else
+        {
+            StartCoroutine(logShowCor());
+        }
+    }
+
+    IEnumerator logShowCor()
+    {
+        GameObject shovelNow = GameObject.FindGameObjectWithTag("shovel");
+        if (shovelNow.activeSelf)
+        {
+            shovelNow.SetActive(false);
+        }
+        log_Text.text = "Durability is zero, go to the shop";
+        logText.GetComponent<Animation>().Play("textUp");
+        yield return new WaitForSeconds(2.5f);
+        logText.GetComponent<Animation>().Play("textDown");
     }
 
     private void Harvest()

@@ -13,6 +13,7 @@ TagManager:
   - seed
   - spawnBed
   - terrain
+  - shop
   layers:
   - Default
   - TransparentFX

@@ -9,7 +9,7 @@ public class TerrainColor : MonoBehaviour
     private Color whiteRed = new Color(1f, 0.46f, 0.46f);
     private Color whiteGreen = new Color(0.73f, 1f, 0.73f);
     private Color stockColor = new Color(0.52f, 0.39f, 0.26f);
-    public bool canSpawn = true;
+    public SpawnBed spawnBed;
 
     private void Start()
     {
@@ -19,23 +19,31 @@ public class TerrainColor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag != "emptyBed")
+        if (other.tag != "emptyBed" && other.tag != "shop")
         {
             bedMaterial.color = whiteGreen;
-            canSpawn = true;
         } else
         {
             bedMaterial.color = whiteRed;
-            canSpawn = false;
+            spawnBed.SetCanSpawn(false);
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "shop")
+        {
+            bedMaterial.color = whiteRed;
+            spawnBed.SetCanSpawn(false);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "emptyBed")
+        if (other.tag == "emptyBed" || other.tag == "shop")
         {
             bedMaterial.color = whiteGreen;
-            canSpawn = true;
+            spawnBed.SetCanSpawn(true);
         }
     }
 }

@@ -10,9 +10,10 @@ public class PlayerOnBed : MonoBehaviour
     private bool spawnedNewBed = false;
 
     public GameObject bed;
-
+    public Transform nowBed;
 
     public PlantsUsing plantUsing;
+    public ShopUsing shopUsing;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -24,7 +25,13 @@ public class PlayerOnBed : MonoBehaviour
                 bed = other.gameObject;
                 bedMaterial = other.gameObject.GetComponent<Renderer>().material;
                 bedMaterial.color = whiteOrange;
+                nowBed = other.transform;
             }
+        }
+
+        if (other.tag == "shop")
+        {
+            shopUsing.ShowShopBtn();
         }
     }
 
@@ -38,7 +45,14 @@ public class PlayerOnBed : MonoBehaviour
                 bed = null;
                 bedMaterial = other.gameObject.GetComponent<Renderer>().material;
                 bedMaterial.color = stockColor;
+                nowBed = null;
             }
+        }
+
+        if (other.tag == "shop")
+        {
+            shopUsing.ShowShopBtn();
+            shopUsing.ClearShopInterface();
         }
     }
 

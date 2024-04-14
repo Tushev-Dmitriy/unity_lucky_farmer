@@ -59,5 +59,8 @@ public class MoveController : MonoBehaviour, IDragHandler, IEndDragHandler
     private void MoveTarget(Vector2 direction)
     {
         target.transform.Translate(new Vector3(direction.x, 0, direction.y) * Time.deltaTime, Space.World);
+        float angle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
+        Vector3 newRotation = new Vector3(0, angle, 0);
+        target.transform.rotation = Quaternion.Euler(newRotation);
     }
 }
