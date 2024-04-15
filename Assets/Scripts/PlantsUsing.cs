@@ -17,6 +17,7 @@ public class PlantsUsing : MonoBehaviour
     public int shoveldurability = 100;
     public GameObject logText;
     public TMP_Text log_Text;
+    public StatsController statsController;
 
     private Vector3[] weedSpawnPos = new Vector3[8] {new Vector3(0.45f, 0f, 0f), new Vector3(0.45f, 0f, -0.50f), new Vector3(0.45f, 0f, 0.50f),
                                                      new Vector3(0f, 0f, 0.50f), new Vector3(-0.45f, 0f, 0.50f), new Vector3(-0.45f, 0f, 0f), 
@@ -48,6 +49,7 @@ public class PlantsUsing : MonoBehaviour
             GameObject plant = Instantiate(tomatoPlantPrefab, bed.position + plantPos, Quaternion.identity);
             plant.transform.parent = bed;
             plant.transform.localScale = new Vector3(100, 100, 100);
+            plant.tag = "resultPlant";
             Debug.Log("Plant grown");
         }
     }
@@ -202,6 +204,10 @@ public class PlantsUsing : MonoBehaviour
     private void PlowBed()
     {
         Debug.Log("Plow");
+
+        statsController.LevelFill();
+        Destroy(GameObject.FindGameObjectWithTag("resultPlant"));
+        spawnCount = 0;
         bedStatus = BedStatus.EMPTY;
     }
 }

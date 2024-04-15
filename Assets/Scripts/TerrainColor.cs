@@ -19,7 +19,7 @@ public class TerrainColor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag != "emptyBed" && other.tag != "shop")
+        if (other.tag != "emptyBed" && other.tag != "shop" && other.tag != "water")
         {
             bedMaterial.color = whiteGreen;
         } else
@@ -40,7 +40,7 @@ public class TerrainColor : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag == "emptyBed" || other.tag == "shop")
+        if (other.tag == "emptyBed" || other.tag == "shop" || other.tag == "water")
         {
             bedMaterial.color = whiteGreen;
             spawnBed.SetCanSpawn(true);
