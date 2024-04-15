@@ -12,6 +12,7 @@ public class ShopUsing : MonoBehaviour
     public PlantsUsing plantsUsing;
     public TMP_Text coinText;
     public int price = 0;
+    public InventoryScript inventoryScript;
 
     private Animation shopAnim;
     private bool shopRunning = false;
@@ -55,6 +56,7 @@ public class ShopUsing : MonoBehaviour
         {
             shovelPrefab.SetActive(true);
             plantsUsing.shoveldurability = 100;
+            inventoryScript.PickupItem(0);
         }
     }
 
