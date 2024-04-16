@@ -17,6 +17,8 @@ TagManager:
   - water
   - announce
   - resultPlant
+  - hoe
+  - waterCan
   layers:
   - Default
   - TransparentFX

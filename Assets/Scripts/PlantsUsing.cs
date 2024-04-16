@@ -14,7 +14,11 @@ public class PlantsUsing : MonoBehaviour
     public GameObject endWeedPrefab;
     public Transform bed;
     public PlayerOnBed playerOnBed;
-    public int shoveldurability = 100;
+    
+    public int shovelDurability = 100;
+    public int hoeDurability = 100;
+    public int waterCanDurability = 100;
+
     public GameObject logText;
     public TMP_Text log_Text;
     public StatsController statsController;
@@ -32,6 +36,7 @@ public class PlantsUsing : MonoBehaviour
     private bool isGoodPlant = true;
     private GameObject weed;
     private float duration = 30f;
+
 
     IEnumerator SeedGrowthRoutine()
     {
@@ -144,16 +149,17 @@ public class PlantsUsing : MonoBehaviour
 
     public void InteractWithBed()
     {
-        if (shoveldurability > 0)
+        if (shovelDurability > 0 && hoeDurability > 0 && waterCanDurability > 0)
         {
-            shoveldurability--;
             switch (bedStatus)
             {
                 case BedStatus.EMPTY:
                     PlantSeed();
+                    waterCanDurability--;
                     break;
                 case BedStatus.GROW:
                     RemoveWeed();
+                    shovelDurability--;
                     break;
                 case BedStatus.READY:
                     if (isGoodPlant)
@@ -167,6 +173,7 @@ public class PlantsUsing : MonoBehaviour
                     break;
                 case BedStatus.PLOW:
                     PlowBed();
+                    hoeDurability--;
                     break;
             }
         }
@@ -179,9 +186,18 @@ public class PlantsUsing : MonoBehaviour
     IEnumerator logShowCor()
     {
         GameObject shovelNow = GameObject.FindGameObjectWithTag("shovel");
-        if (shovelNow.activeSelf)
+        GameObject hoeNow = GameObject.FindGameObjectWithTag("hoe");
+        GameObject waterCan = GameObject.FindGameObjectWithTag("waterCan");
+
+        if (shovelNow.activeSelf && shovelDurability <= 0)
         {
             shovelNow.SetActive(false);
+        } else if (hoeNow.activeSelf && hoeDurability <= 0)
+        {
+            hoeNow.SetActive(false);
+        } else if (waterCan.activeSelf && waterCanDurability <= 0)
+        {
+            waterCan.SetActive(false);
         }
         log_Text.text = "Durability is zero, go to the shop";
         logText.GetComponent<Animation>().Play("textUp");

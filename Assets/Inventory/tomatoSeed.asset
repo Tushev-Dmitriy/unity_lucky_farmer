@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eab2c4ba45bee9f4f9404b25fbc69052, type: 3}
   m_Name: tomatoSeed
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 81c2f20fc439d0b48880763d20fce2e1, type: 3}
+  icon: {fileID: 21300000, guid: a91705bbd911bbc438904f69ed69251d, type: 3}
   title: tomatoSeed
   price: 10
   isStacking: 1
+  type: 0

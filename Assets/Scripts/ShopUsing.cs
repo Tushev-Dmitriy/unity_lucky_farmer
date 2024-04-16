@@ -8,15 +8,14 @@ public class ShopUsing : MonoBehaviour
     public GameObject shopBtn;
     public GameObject shopUi;
     public GameObject shovelPrefab;
+    public GameObject hoePrefab;
+    public GameObject waterCanPrefab;
     public GameObject playerInGame;
     public PlantsUsing plantsUsing;
-    public TMP_Text coinText;
-    public int price = 0;
     public InventoryScript inventoryScript;
 
     private Animation shopAnim;
     private bool shopRunning = false;
-    private int coinCount = 100;
 
     private void Start()
     {
@@ -50,19 +49,41 @@ public class ShopUsing : MonoBehaviour
         }
     }
 
-    public void BuyShovel()
+    public void BuySomething(int i)
     {
-        if (BuySubject())
+        if (true)
         {
-            shovelPrefab.SetActive(true);
-            plantsUsing.shoveldurability = 100;
-            inventoryScript.PickupItem(0);
-        }
-    }
+            switch (i)
+            {
+                case 1:
+                    shovelPrefab.SetActive(true);
+                    plantsUsing.shovelDurability = 100;
+                    inventoryScript.BuyItem(0);
+                    break;
 
-    public void SetValue(int value)
-    {
-        price = value;
+                case 2:
+                    hoePrefab.SetActive(true);
+                    plantsUsing.hoeDurability = 100;
+                    inventoryScript.BuyItem(1);
+                    break;
+
+                case 3:
+                    waterCanPrefab.SetActive(true);
+                    plantsUsing.waterCanDurability = 100;
+                    inventoryScript.BuyItem(2);
+                    break;
+
+                case 4:
+                    inventoryScript.BuyItem(5);
+                    break;
+
+                case 5:
+                    inventoryScript.BuyItem(6);
+                    break;
+
+            }
+
+        }
     }
 
     public void ClearShopInterface()
@@ -70,18 +91,5 @@ public class ShopUsing : MonoBehaviour
         shopAnim.Play("ShopBtnReverse");
         shopUi.SetActive(false);
         shopRunning = false;
-    }
-
-    private bool BuySubject()
-    {
-        if (coinCount > price) 
-        {
-            coinCount = coinCount - price;
-            coinText.text = coinCount.ToString();
-            return true;
-        } else
-        {
-            return false;
-        }
     }
 }
