@@ -24,8 +24,13 @@ public class InventoryScript : MonoBehaviour
             Debug.Log("Add");
         } else
         {
-            Debug.Log("Don't add");
+            StartCoroutine(showFullInventory());
         }
+    }
+
+    public void CheckTool()
+    {
+        inventoryManager.CheckItem();
     }
 
     public void BuyItem(int id)

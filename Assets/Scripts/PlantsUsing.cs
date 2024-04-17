@@ -12,12 +12,17 @@ public class PlantsUsing : MonoBehaviour
     public GameObject seedPrefab;
     public GameObject weedPrefab;
     public GameObject endWeedPrefab;
+    public GameObject plowTerrain;
     public Transform bed;
     public PlayerOnBed playerOnBed;
     
     public int shovelDurability = 100;
     public int hoeDurability = 100;
     public int waterCanDurability = 100;
+
+    public GameObject shovelObj;
+    public GameObject hoeObj;
+    public GameObject waterCanObj;
 
     public GameObject logText;
     public TMP_Text log_Text;
@@ -141,6 +146,7 @@ public class PlantsUsing : MonoBehaviour
         }
         GameObject startSeed = Instantiate(endWeedPrefab, bed.position + plantPos, Quaternion.identity);
         startSeed.transform.parent = bed;
+        startSeed.tag = "resultPlant";
         startSeed.transform.localScale = new Vector3(100, 100, 100);
         isGoodPlant = false;
         bedStatus = BedStatus.READY;
@@ -154,12 +160,18 @@ public class PlantsUsing : MonoBehaviour
             switch (bedStatus)
             {
                 case BedStatus.EMPTY:
-                    PlantSeed();
-                    waterCanDurability--;
+                    if (waterCanObj.activeSelf)
+                    {
+                        PlantSeed();
+                        waterCanDurability--;
+                    }
                     break;
                 case BedStatus.GROW:
-                    RemoveWeed();
-                    shovelDurability--;
+                    if (shovelObj.activeSelf)
+                    {
+                        RemoveWeed();
+                        shovelDurability--;
+                    }
                     break;
                 case BedStatus.READY:
                     if (isGoodPlant)
@@ -172,8 +184,11 @@ public class PlantsUsing : MonoBehaviour
                     }
                     break;
                 case BedStatus.PLOW:
-                    PlowBed();
-                    hoeDurability--;
+                    if (hoeObj.activeSelf)
+                    {
+                        PlowBed();
+                        hoeDurability--;
+                    }
                     break;
             }
         }
@@ -208,22 +223,23 @@ public class PlantsUsing : MonoBehaviour
     private void Harvest()
     {
         Debug.Log("Harvest");
+        statsController.LevelFill();
+        Destroy(GameObject.FindGameObjectWithTag("resultPlant"));
+        spawnCount = 0;
         bedStatus = BedStatus.PLOW;
     }
 
     private void Revival()
     {
         Debug.Log("Revival");
+        Destroy(GameObject.FindGameObjectWithTag("resultPlant"));
+        spawnCount = 0;
         bedStatus = BedStatus.PLOW;
     }
 
     private void PlowBed()
     {
         Debug.Log("Plow");
-
-        statsController.LevelFill();
-        Destroy(GameObject.FindGameObjectWithTag("resultPlant"));
-        spawnCount = 0;
         bedStatus = BedStatus.EMPTY;
     }
 }

@@ -7,9 +7,6 @@ public class ShopUsing : MonoBehaviour
 {
     public GameObject shopBtn;
     public GameObject shopUi;
-    public GameObject shovelPrefab;
-    public GameObject hoePrefab;
-    public GameObject waterCanPrefab;
     public GameObject playerInGame;
     public PlantsUsing plantsUsing;
     public InventoryScript inventoryScript;
@@ -51,37 +48,30 @@ public class ShopUsing : MonoBehaviour
 
     public void BuySomething(int i)
     {
-        if (true)
+        switch (i)
         {
-            switch (i)
-            {
-                case 1:
-                    shovelPrefab.SetActive(true);
-                    plantsUsing.shovelDurability = 100;
-                    inventoryScript.BuyItem(0);
-                    break;
+            case 1:
+                plantsUsing.shovelDurability = 100;
+                inventoryScript.BuyItem(0);
+                break;
 
-                case 2:
-                    hoePrefab.SetActive(true);
-                    plantsUsing.hoeDurability = 100;
-                    inventoryScript.BuyItem(1);
-                    break;
+            case 2:
+                plantsUsing.hoeDurability = 100;
+                inventoryScript.BuyItem(1);
+                break;
 
-                case 3:
-                    waterCanPrefab.SetActive(true);
-                    plantsUsing.waterCanDurability = 100;
-                    inventoryScript.BuyItem(2);
-                    break;
+            case 3:
+                plantsUsing.waterCanDurability = 100;
+                inventoryScript.BuyItem(2);
+                break;
 
-                case 4:
-                    inventoryScript.BuyItem(5);
-                    break;
+            case 4:
+                inventoryScript.BuyItem(5);
+                break;
 
-                case 5:
-                    inventoryScript.BuyItem(6);
-                    break;
-
-            }
+            case 5:
+                inventoryScript.BuyItem(6);
+                break;
 
         }
     }

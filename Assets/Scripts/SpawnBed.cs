@@ -20,31 +20,36 @@ public class SpawnBed : MonoBehaviour
     public GameObject endSpawnButton;
     public GameObject plantButton;
 
+    public GameObject shovelObj;
+
     private bool isSpawning = false;
     private bool canSpawn = true;
 
     public void SpawnOrStopTerrain()
     {
-        if (!isSpawning && canSpawn)
+        if (shovelObj.activeSelf)
         {
-            terrainPos = playerInGame.transform.position;
-            terrainPos.y = 0.512f;
-            terrain = Instantiate(terrainPrefab, terrainPos, Quaternion.identity, playerInGame.transform);
-            terrain.tag = "spawnBed";
-            bedMaterial = terrain.GetComponent<Renderer>().material;
-            isSpawning = true;
-            bedMaterial.color = whiteGreen;
-            spawnButton.SetActive(false);
-            plantButton.SetActive(false);
-            endSpawnButton.SetActive(true);
-        }
-        else if (canSpawn)
-        {
-            isSpawning = false;
-            MakeTerrainWithoutParent();
-            spawnButton.SetActive(true);
-            plantButton.SetActive(true);
-            endSpawnButton.SetActive(false);
+            if (!isSpawning && canSpawn)
+            {
+                terrainPos = playerInGame.transform.position;
+                terrainPos.y = 0.512f;
+                terrain = Instantiate(terrainPrefab, terrainPos, Quaternion.identity, playerInGame.transform);
+                terrain.tag = "spawnBed";
+                bedMaterial = terrain.GetComponent<Renderer>().material;
+                isSpawning = true;
+                bedMaterial.color = whiteGreen;
+                spawnButton.SetActive(false);
+                plantButton.SetActive(false);
+                endSpawnButton.SetActive(true);
+            }
+            else if (canSpawn)
+            {
+                isSpawning = false;
+                MakeTerrainWithoutParent();
+                spawnButton.SetActive(true);
+                plantButton.SetActive(true);
+                endSpawnButton.SetActive(false);
+            }
         }
     }
 

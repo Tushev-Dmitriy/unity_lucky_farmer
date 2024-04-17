@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3592042661719512499}
   m_Layer: 5
   m_Name: InventoryItem
-  m_TagString: Untagged
+  m_TagString: Finish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -91,6 +91,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   image: {fileID: 1764865055774013270}
   countText: {fileID: 570583761751197225}
+  inventoryScript: {fileID: 0}
+  title: 
   parentAfterDrag: {fileID: 0}
   item: {fileID: 0}
   count: 1

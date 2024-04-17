@@ -10,16 +10,11 @@ public class InventoryManager : MonoBehaviour
     public GameObject inventoryItemPrefab;
     public InventorySlot primeSlot;
 
-    [HideInInspector] public GameObject shovelObj;
-    [HideInInspector] public GameObject hoeObj;
-    [HideInInspector] public GameObject waterCanObj;
+    public GameObject shovelObj;
+    public GameObject hoeObj;
+    public GameObject waterCanObj;
+
     [HideInInspector] public Item item;
-    private void Start()
-    {
-        shovelObj = GameObject.FindGameObjectWithTag("shovel");
-        hoeObj = GameObject.FindGameObjectWithTag("hoe");
-        waterCanObj = GameObject.FindGameObjectWithTag("waterCan");
-    }
 
     public bool AddItem(Item item)
     {
@@ -56,26 +51,34 @@ public class InventoryManager : MonoBehaviour
         inventoryItem.InitialiseItem(item);
     }
 
-    public void checkItem(Item newItem)
+    public void CheckItem()
     {
-        item = newItem;
-        if (item.title == "shovel")
+        if (primeSlot.transform.childCount > 0)
         {
-            shovelObj.SetActive(true);
-            hoeObj.SetActive(false);
-            waterCanObj.SetActive(false);
-        }
-        else if (item.title == "hoe")
+            string name = primeSlot.GetComponentInChildren<InventoryItem>().title;
+            if (name == "shovel")
+            {
+                shovelObj.SetActive(true);
+                hoeObj.SetActive(false);
+                waterCanObj.SetActive(false);
+            }
+            else if (name == "hoe")
+            {
+                shovelObj.SetActive(false);
+                hoeObj.SetActive(true);
+                waterCanObj.SetActive(false);
+            }
+            else if (name == "waterCan")
+            {
+                shovelObj.SetActive(false);
+                hoeObj.SetActive(false);
+                waterCanObj.SetActive(true);
+            }
+        } else
         {
             shovelObj.SetActive(false);
-            hoeObj.SetActive(true);
-            waterCanObj.SetActive(false);
-        }
-        else if (item.title == "waterCan")
-        {
-            shovelObj.SetActive(false);
             hoeObj.SetActive(false);
-            waterCanObj.SetActive(true);
+            waterCanObj.SetActive(false);
         }
     }
 }

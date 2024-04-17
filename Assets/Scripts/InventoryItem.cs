@@ -11,6 +11,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public Image image;
     public TMP_Text countText;
 
+    [HideInInspector] public string title;
     [HideInInspector] public Transform parentAfterDrag;
     [HideInInspector] public Item item;
     [HideInInspector] public int count = 1;
@@ -19,6 +20,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     {
         item = newItem;
         image.sprite = newItem.icon;
+        title = newItem.title;
         RefreshCount();
     }
 

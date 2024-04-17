@@ -3,24 +3,29 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
 
 public class StatsController : MonoBehaviour
 {
     public Image level;
     public TMP_Text levelText;
 
-    private float fill = 0.1f;
+    private float fill = 1.5f;
     private int playerLevel = 1;
+    private bool countNow = false;
+    private float fillAmountNow;
+    private float fillNow;
 
     public void LevelFill()
     {
-        if (level.fillAmount != 1)
+        if (level.fillAmount + fill >= 1)
+        {
+            fill = fill - level.fillAmount;
+            LevelUp();
+            level.fillAmount += fill;
+        } else
         {
             level.fillAmount += fill;
-        }
-        else
-        {
-            LevelUp();
         }
     }
 
@@ -28,5 +33,6 @@ public class StatsController : MonoBehaviour
     {
         playerLevel++;
         levelText.text = playerLevel.ToString();
+        level.fillAmount = 0;
     }
 }
