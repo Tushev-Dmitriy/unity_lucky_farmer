@@ -9,6 +9,8 @@ public class PlantsUsing : MonoBehaviour
 {
     public GameObject tomatoPlantPrefab;
     public GameObject tomatoPrefab;
+    public GameObject cabbagePlantPrefab;
+    public GameObject cabbagePrefab;
     public GameObject seedPrefab;
     public GameObject weedPrefab;
     public GameObject endWeedPrefab;
@@ -23,10 +25,13 @@ public class PlantsUsing : MonoBehaviour
     public GameObject shovelObj;
     public GameObject hoeObj;
     public GameObject waterCanObj;
+    public GameObject tomatoSeedObj;
+    public GameObject cabbageSeedObj;
 
     public GameObject logText;
     public TMP_Text log_Text;
     public StatsController statsController;
+    public InventoryScript inventoryScript;
 
     private Vector3[] weedSpawnPos = new Vector3[8] {new Vector3(0.45f, 0f, 0f), new Vector3(0.45f, 0f, -0.50f), new Vector3(0.45f, 0f, 0.50f),
                                                      new Vector3(0f, 0f, 0.50f), new Vector3(-0.45f, 0f, 0.50f), new Vector3(-0.45f, 0f, 0f), 
@@ -34,13 +39,14 @@ public class PlantsUsing : MonoBehaviour
     private Vector3 endWeedPos = new Vector3(0, 0, 0);
     private Vector3 plantPos = new Vector3(0, 0, 0);
     private int spawnCount = 0;
-
+    private int seedIndex = 0;
     private enum BedStatus { EMPTY, GROW, READY, PLOW };
     private BedStatus bedStatus = BedStatus.EMPTY;
 
     private bool isGoodPlant = true;
     private GameObject weed;
     private float duration = 30f;
+    private bool afterWater = false;
 
 
     IEnumerator SeedGrowthRoutine()
@@ -160,10 +166,22 @@ public class PlantsUsing : MonoBehaviour
             switch (bedStatus)
             {
                 case BedStatus.EMPTY:
-                    if (waterCanObj.activeSelf)
+                    if (waterCanObj.activeSelf || afterWater)
                     {
-                        PlantSeed();
-                        waterCanDurability--;
+                        afterWater = true;
+                        playerOnBed.withWater = afterWater;
+                        if (tomatoSeedObj.activeSelf)
+                        {
+                            PlantSeed();
+                            waterCanDurability--;
+                            seedIndex = 3;
+                        }
+                        if (cabbageSeedObj.activeSelf)
+                        {
+                            PlantSeed();
+                            waterCanDurability--;
+                            seedIndex = 4;
+                        }
                     }
                     break;
                 case BedStatus.GROW:
@@ -174,6 +192,8 @@ public class PlantsUsing : MonoBehaviour
                     }
                     break;
                 case BedStatus.READY:
+                    afterWater = false;
+                    playerOnBed.withWater = afterWater;
                     if (isGoodPlant)
                     {
                         Harvest();
@@ -222,11 +242,25 @@ public class PlantsUsing : MonoBehaviour
 
     private void Harvest()
     {
-        Debug.Log("Harvest");
-        statsController.LevelFill();
-        Destroy(GameObject.FindGameObjectWithTag("resultPlant"));
-        spawnCount = 0;
-        bedStatus = BedStatus.PLOW;
+        if (seedIndex == 3)
+        {
+            Debug.Log("Harvest");
+            statsController.LevelFill(0.3f);
+            Destroy(GameObject.FindGameObjectWithTag("resultPlant"));
+            inventoryScript.PickupItem(seedIndex);
+            spawnCount = 0;
+            seedIndex = 0;
+            bedStatus = BedStatus.PLOW;
+        } else if (seedIndex == 4)
+        {
+            Debug.Log("Harvest");
+            statsController.LevelFill(0.6f);
+            Destroy(GameObject.FindGameObjectWithTag("resultPlant"));
+            inventoryScript.PickupItem(seedIndex);
+            spawnCount = 0;
+            seedIndex = 0;
+            bedStatus = BedStatus.PLOW;
+        }
     }
 
     private void Revival()

@@ -10,6 +10,7 @@ public class ShopUsing : MonoBehaviour
     public GameObject playerInGame;
     public PlantsUsing plantsUsing;
     public InventoryScript inventoryScript;
+    public StatsController statsController;
 
     private Animation shopAnim;
     private bool shopRunning = false;
@@ -48,6 +49,8 @@ public class ShopUsing : MonoBehaviour
 
     public void BuySomething(int i)
     {
+        int requiredLevel = 2;
+        int nowLevel = statsController.playerLevel;
         switch (i)
         {
             case 1:
@@ -70,9 +73,11 @@ public class ShopUsing : MonoBehaviour
                 break;
 
             case 5:
-                inventoryScript.BuyItem(6);
+                if (nowLevel >= requiredLevel)
+                {
+                    inventoryScript.BuyItem(6);
+                }
                 break;
-
         }
     }
 

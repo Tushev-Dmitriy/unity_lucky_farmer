@@ -10,29 +10,26 @@ public class StatsController : MonoBehaviour
     public Image level;
     public TMP_Text levelText;
 
-    private float fill = 1.5f;
-    private int playerLevel = 1;
-    private bool countNow = false;
-    private float fillAmountNow;
-    private float fillNow;
+    public int playerLevel = 1;
+    private float fillAmountNow = 0;
 
-    public void LevelFill()
+    public void LevelFill(float fill)
     {
-        if (level.fillAmount + fill >= 1)
+        fillAmountNow += fill;
+
+        if (fillAmountNow >= 1)
         {
-            fill = fill - level.fillAmount;
+            float overflow = fillAmountNow - 1;
             LevelUp();
-            level.fillAmount += fill;
-        } else
-        {
-            level.fillAmount += fill;
+            fillAmountNow = overflow;
         }
+
+        level.fillAmount = fillAmountNow;
     }
 
     private void LevelUp()
     {
         playerLevel++;
         levelText.text = playerLevel.ToString();
-        level.fillAmount = 0;
     }
 }

@@ -9,10 +9,13 @@ public class InventoryManager : MonoBehaviour
     public InventorySlot[] inventorySlots;
     public GameObject inventoryItemPrefab;
     public InventorySlot primeSlot;
+    public InventorySlot deleteSlot;
 
     public GameObject shovelObj;
     public GameObject hoeObj;
     public GameObject waterCanObj;
+    public GameObject tomatoSeedObj;
+    public GameObject cabbageSeedObj;
 
     [HideInInspector] public Item item;
 
@@ -44,6 +47,18 @@ public class InventoryManager : MonoBehaviour
         return false;
     }
 
+    public void DeleteItem(InventorySlot slot)
+    {
+        if (deleteSlot.transform.childCount > 0)
+        {
+            InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
+            if (itemInSlot != null)
+            {
+                Destroy(itemInSlot.gameObject);
+            }
+        }
+    }
+
     private void SpawnNewItem(Item item, InventorySlot slot)
     {
         GameObject newItemGo = Instantiate(inventoryItemPrefab, slot.transform);
@@ -61,24 +76,46 @@ public class InventoryManager : MonoBehaviour
                 shovelObj.SetActive(true);
                 hoeObj.SetActive(false);
                 waterCanObj.SetActive(false);
+                tomatoSeedObj.SetActive(false);
+                cabbageSeedObj.SetActive(false);
             }
             else if (name == "hoe")
             {
                 shovelObj.SetActive(false);
                 hoeObj.SetActive(true);
                 waterCanObj.SetActive(false);
+                tomatoSeedObj.SetActive(false);
+                cabbageSeedObj.SetActive(false);
             }
             else if (name == "waterCan")
             {
                 shovelObj.SetActive(false);
                 hoeObj.SetActive(false);
                 waterCanObj.SetActive(true);
+                tomatoSeedObj.SetActive(false);
+                cabbageSeedObj.SetActive(false);
+            } else if (name == "tomatoSeed")
+            {
+                shovelObj.SetActive(false);
+                hoeObj.SetActive(false);
+                waterCanObj.SetActive(false);
+                tomatoSeedObj.SetActive(true);
+                cabbageSeedObj.SetActive(false);
+            } else if (name == "cabbageSeed")
+            {
+                shovelObj.SetActive(false);
+                hoeObj.SetActive(false);
+                waterCanObj.SetActive(false);
+                tomatoSeedObj.SetActive(false);
+                cabbageSeedObj.SetActive(true);
             }
         } else
         {
             shovelObj.SetActive(false);
             hoeObj.SetActive(false);
             waterCanObj.SetActive(false);
+            tomatoSeedObj.SetActive(false);
+            cabbageSeedObj.SetActive(false);
         }
     }
 }

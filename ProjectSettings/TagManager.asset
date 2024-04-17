@@ -19,6 +19,8 @@ TagManager:
   - resultPlant
   - hoe
   - waterCan
+  - tomatoSeed
+  - cabbageSeed
   layers:
   - Default
   - TransparentFX
