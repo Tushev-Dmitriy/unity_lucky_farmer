@@ -17,6 +17,7 @@ public class InventoryManager : MonoBehaviour
     public GameObject tomatoSeedObj;
     public GameObject cabbageSeedObj;
 
+    [HideInInspector] public string nameOfSlot;
     [HideInInspector] public Item item;
 
     public bool AddItem(Item item)
@@ -47,6 +48,27 @@ public class InventoryManager : MonoBehaviour
         return false;
     }
 
+    public void UsingSeed()
+    {
+        if (primeSlot.transform.childCount > 0)
+        {
+            InventoryItem primeItem = primeSlot.GetComponentInChildren<InventoryItem>();
+            if (nameOfSlot == "tomatoSeed" || nameOfSlot == "cabbageSeed")
+            {
+                primeItem.count--;
+                if (primeItem.count == 0)
+                {
+                    Destroy(primeItem.gameObject);
+                    tomatoSeedObj.SetActive(false);
+                    cabbageSeedObj.SetActive(false);
+                } else
+                {
+                    primeItem.RefreshCount();
+                }
+            }
+        }
+    }
+
     public void DeleteItem(InventorySlot slot)
     {
         if (deleteSlot.transform.childCount > 0)
@@ -70,8 +92,8 @@ public class InventoryManager : MonoBehaviour
     {
         if (primeSlot.transform.childCount > 0)
         {
-            string name = primeSlot.GetComponentInChildren<InventoryItem>().title;
-            if (name == "shovel")
+            nameOfSlot = primeSlot.GetComponentInChildren<InventoryItem>().title;
+            if (nameOfSlot == "shovel")
             {
                 shovelObj.SetActive(true);
                 hoeObj.SetActive(false);
@@ -79,7 +101,7 @@ public class InventoryManager : MonoBehaviour
                 tomatoSeedObj.SetActive(false);
                 cabbageSeedObj.SetActive(false);
             }
-            else if (name == "hoe")
+            else if (nameOfSlot == "hoe")
             {
                 shovelObj.SetActive(false);
                 hoeObj.SetActive(true);
@@ -87,21 +109,21 @@ public class InventoryManager : MonoBehaviour
                 tomatoSeedObj.SetActive(false);
                 cabbageSeedObj.SetActive(false);
             }
-            else if (name == "waterCan")
+            else if (nameOfSlot == "waterCan")
             {
                 shovelObj.SetActive(false);
                 hoeObj.SetActive(false);
                 waterCanObj.SetActive(true);
                 tomatoSeedObj.SetActive(false);
                 cabbageSeedObj.SetActive(false);
-            } else if (name == "tomatoSeed")
+            } else if (nameOfSlot == "tomatoSeed")
             {
                 shovelObj.SetActive(false);
                 hoeObj.SetActive(false);
                 waterCanObj.SetActive(false);
                 tomatoSeedObj.SetActive(true);
                 cabbageSeedObj.SetActive(false);
-            } else if (name == "cabbageSeed")
+            } else if (nameOfSlot == "cabbageSeed")
             {
                 shovelObj.SetActive(false);
                 hoeObj.SetActive(false);

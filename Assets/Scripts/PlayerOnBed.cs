@@ -19,7 +19,6 @@ public class PlayerOnBed : MonoBehaviour
     public PlantsUsing plantUsing;
     public ShopUsing shopUsing;
     public AnnounceUsing announceUsing;
-    public ShopItems shopItems;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -44,7 +43,6 @@ public class PlayerOnBed : MonoBehaviour
         if (other.tag == "shop")
         {
             shopUsing.ShowShopBtn();
-            shopItems.CheckItemsInShop();
         }
 
         if (other.tag == "announce")

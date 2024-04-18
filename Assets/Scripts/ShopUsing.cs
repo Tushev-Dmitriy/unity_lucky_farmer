@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopUsing : MonoBehaviour
 {
@@ -11,6 +12,8 @@ public class ShopUsing : MonoBehaviour
     public PlantsUsing plantsUsing;
     public InventoryScript inventoryScript;
     public StatsController statsController;
+    public ShopItems shopItems;
+    public Image[] itemsInShop;
 
     private Animation shopAnim;
     private bool shopRunning = false;
@@ -38,12 +41,46 @@ public class ShopUsing : MonoBehaviour
         if (shopRunning)
         {
             shopUi.SetActive(true);
+            shopItems.CheckItemsInShop(0);
             shopRunning = false;
         }
         else
         {
             shopUi.SetActive(false);
             shopRunning = true;
+        }
+    }
+
+    public void ShopCategory(string category)
+    {
+        if (category == "tools")
+        {
+            for (int i = 0; i < itemsInShop.Length; i++)
+            {
+                if (i < 3)
+                {
+                    itemsInShop[i].gameObject.SetActive(true);
+                } else
+                {
+                    itemsInShop[i].gameObject.SetActive(false);
+                }
+            }
+        } else if (category == "seeds")
+        {
+            for (int i = 0; i < itemsInShop.Length; i++)
+            {
+                if (i < 3)
+                {
+                    itemsInShop[i].gameObject.SetActive(false);
+                }
+                else
+                {
+                    shopItems.CheckItemsInShop(3);
+                }
+            }
+        } else if (category == "all")
+        {
+            shopItems.CheckItemsInShop(0);
         }
     }
 

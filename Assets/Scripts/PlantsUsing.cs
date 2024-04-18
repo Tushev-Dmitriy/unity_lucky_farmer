@@ -17,6 +17,7 @@ public class PlantsUsing : MonoBehaviour
     public GameObject plowTerrain;
     public Transform bed;
     public PlayerOnBed playerOnBed;
+    public InventorySlot primeSlot;
     
     public int shovelDurability = 100;
     public int hoeDurability = 100;
@@ -32,6 +33,7 @@ public class PlantsUsing : MonoBehaviour
     public TMP_Text log_Text;
     public StatsController statsController;
     public InventoryScript inventoryScript;
+    public InventoryManager inventoryManager;
 
     private Vector3[] weedSpawnPos = new Vector3[8] {new Vector3(0.45f, 0f, 0f), new Vector3(0.45f, 0f, -0.50f), new Vector3(0.45f, 0f, 0.50f),
                                                      new Vector3(0f, 0f, 0.50f), new Vector3(-0.45f, 0f, 0.50f), new Vector3(-0.45f, 0f, 0f), 
@@ -45,6 +47,7 @@ public class PlantsUsing : MonoBehaviour
 
     private bool isGoodPlant = true;
     private GameObject weed;
+    private GameObject plant;
     private float duration = 30f;
     private bool afterWater = false;
 
@@ -62,7 +65,14 @@ public class PlantsUsing : MonoBehaviour
                 Destroy(weeds[i]);
             }
             bedStatus = BedStatus.READY;
-            GameObject plant = Instantiate(tomatoPlantPrefab, bed.position + plantPos, Quaternion.identity);
+            if (seedIndex == 3)
+            {
+                plant = Instantiate(tomatoPlantPrefab, bed.position + plantPos, Quaternion.identity);
+            } else if (seedIndex == 4)
+            {
+                plant = Instantiate(cabbagePlantPrefab, bed.position + plantPos, Quaternion.identity);
+            }
+
             plant.transform.parent = bed;
             plant.transform.localScale = new Vector3(100, 100, 100);
             plant.tag = "resultPlant";
@@ -227,12 +237,15 @@ public class PlantsUsing : MonoBehaviour
         if (shovelNow.activeSelf && shovelDurability <= 0)
         {
             shovelNow.SetActive(false);
+            inventoryManager.DeleteItem(primeSlot);
         } else if (hoeNow.activeSelf && hoeDurability <= 0)
         {
             hoeNow.SetActive(false);
+            inventoryManager.DeleteItem(primeSlot);
         } else if (waterCan.activeSelf && waterCanDurability <= 0)
         {
             waterCan.SetActive(false);
+            inventoryManager.DeleteItem(primeSlot);
         }
         log_Text.text = "Durability is zero, go to the shop";
         logText.GetComponent<Animation>().Play("textUp");

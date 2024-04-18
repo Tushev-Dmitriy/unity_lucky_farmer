@@ -9,19 +9,17 @@ public class ShopItems : MonoBehaviour
     public int[] shopItemsLevel;
     public StatsController statsController;
 
-    public void CheckItemsInShop()
+    public void CheckItemsInShop(int a)
     {
-        for (int i = 0; i < shopItems.Length; i++)
+        for (int i = a; i < shopItems.Length; i++)
         {
-            for (int j = 0; j < shopItemsLevel.Length; j++)
+            if (shopItemsLevel[i] <= statsController.playerLevel)
             {
-                if (shopItemsLevel[j] < statsController.playerLevel)
-                {
-                    shopItems[i].gameObject.SetActive(false);
-                } else
-                {
-                    shopItems[i].gameObject.SetActive(true);
-                }
+                shopItems[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                shopItems[i].gameObject.SetActive(false);
             }
         }
     }
