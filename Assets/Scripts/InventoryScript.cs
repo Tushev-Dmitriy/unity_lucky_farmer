@@ -11,7 +11,7 @@ public class InventoryScript : MonoBehaviour
     public GameObject fullInventory;
     public GameObject lowMoney;
 
-    private int coinCount = 100;
+    public int coinCount = 100;
     private bool result;
     public int price = 0;
     public TMP_Text coinText;

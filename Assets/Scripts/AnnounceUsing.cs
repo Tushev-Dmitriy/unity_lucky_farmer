@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AnnounceUsing : MonoBehaviour
 {
@@ -9,17 +10,30 @@ public class AnnounceUsing : MonoBehaviour
     public GameObject playerInGame;
     public PlantsUsing plantsUsing;
     public AnnouncesBlocks announcesBlocks;
+    public GameObject BgInGame;
+    public StatsController statsController;
+    public GameObject announceBlockPrefab;
 
+    private GameObject tomatoImg;
+    private GameObject cabbageImg;
     private Animation announceAnim;
     private bool announceRunning = false;
 
-    public int[,] announceRequireAndReward = new int[2, 5] { { 3, 6, 9, 12, 15 }, { 15, 30, 45, 60, 75 } };
-    public int[] rewardsNow = new int[6];
-    public int[] requireNow = new int[6];
+    public int[] rewardsNow = new int[5];
+    public int[] requireNow = new int[5];
+    public char[] infoAboutItem;
+    public int[] randomIndex;
 
     private void Start()
     {
         announceAnim = announceUI.GetComponent<Animation>();
+        for (int i = 0; i < rewardsNow.Length; i++)
+        {
+            Debug.Log(rewardsNow[i] + " " + requireNow[i]);
+        }
+        int f = BgInGame.transform.childCount;
+        infoAboutItem = new char[f];
+        randomIndex = new int[f];   
     }
     public void ShowAnnounceUI()
     {
@@ -37,12 +51,41 @@ public class AnnounceUsing : MonoBehaviour
 
     public void RewardAdd()
     {
-        for (int i = 0; i < 6; i++)
+        if (BgInGame.transform.childCount < 6)
         {
-            rewardsNow[i] = announceRequireAndReward[1, Random.Range(0, 5)];
-            requireNow[i] = announceRequireAndReward[0, Random.Range(0, 5)];
+            Instantiate(announceBlockPrefab);
         }
-        announcesBlocks.SwapRequireText();
-        announcesBlocks.SwapRewardText();
+        int a = BgInGame.transform.childCount;
+        for (int z = 0; z < a; z++)
+        {
+            GameObject imgNow = BgInGame.transform.GetChild(z).gameObject;
+            AnnouncesBlocks imgAnnounce = imgNow.GetComponent<AnnouncesBlocks>();
+            announcesBlocks = imgAnnounce;
+            int b = Random.Range(0, 5);
+            randomIndex[z] = b;
+            announcesBlocks.SwapRequireText(b);
+            announcesBlocks.SwapRewardText(b);
+            tomatoImg = imgNow.transform.GetChild(3).gameObject;
+            cabbageImg = imgNow.transform.GetChild(4).gameObject;
+            char aboutItem;
+            if (statsController.playerLevel < 2)
+            {
+                tomatoImg.SetActive(true);
+                aboutItem = 't';
+            } else
+            {
+                int c = Random.Range(0, 2);
+                if (c == 0)
+                {
+                    tomatoImg.SetActive(true);
+                    aboutItem = 't';
+                } else
+                {
+                    cabbageImg.SetActive(true);
+                    aboutItem = 'c';
+                }
+            }
+            infoAboutItem[z] = aboutItem;
+        }
     }
 }

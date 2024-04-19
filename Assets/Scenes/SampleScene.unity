@@ -4376,6 +4376,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2ea42bcabd7f43344bf9ae3c90e7c45f, type: 2}
   fullInventory: {fileID: 1800188567}
   lowMoney: {fileID: 1152149203}
+  coinCount: 100
   price: 0
   coinText: {fileID: 130608574}
 --- !u!114 &317548837
@@ -12540,6 +12541,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 465924062}
     m_Modifications:
+    - target: {fileID: 79072856422868082, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 940170080329298415, guid: 37d7ce81d3a2cb24995433f50e69c740,
         type: 3}
       propertyPath: m_Pivot.x
@@ -12645,6 +12651,21 @@ PrefabInstance:
       propertyPath: announceUsing
       value: 
       objectReference: {fileID: 2146307547}
+    - target: {fileID: 3014305411034214138, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: imageController
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3014305411034214138, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: inventoryScript
+      value: 
+      objectReference: {fileID: 317548836}
+    - target: {fileID: 3014305411034214138, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: inventoryManager
+      value: 
+      objectReference: {fileID: 317548834}
     - target: {fileID: 6014444216156274689, guid: 37d7ce81d3a2cb24995433f50e69c740,
         type: 3}
       propertyPath: m_Name
@@ -13732,6 +13753,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 465924062}
     m_Modifications:
+    - target: {fileID: 79072856422868082, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 940170080329298415, guid: 37d7ce81d3a2cb24995433f50e69c740,
         type: 3}
       propertyPath: m_Pivot.x
@@ -13837,6 +13863,21 @@ PrefabInstance:
       propertyPath: announceUsing
       value: 
       objectReference: {fileID: 2146307547}
+    - target: {fileID: 3014305411034214138, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: imageController
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3014305411034214138, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: inventoryScript
+      value: 
+      objectReference: {fileID: 317548836}
+    - target: {fileID: 3014305411034214138, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: inventoryManager
+      value: 
+      objectReference: {fileID: 317548834}
     - target: {fileID: 6014444216156274689, guid: 37d7ce81d3a2cb24995433f50e69c740,
         type: 3}
       propertyPath: m_Name
@@ -14005,6 +14046,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 465924062}
     m_Modifications:
+    - target: {fileID: 79072856422868082, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 940170080329298415, guid: 37d7ce81d3a2cb24995433f50e69c740,
         type: 3}
       propertyPath: m_Pivot.x
@@ -14110,6 +14156,21 @@ PrefabInstance:
       propertyPath: announceUsing
       value: 
       objectReference: {fileID: 2146307547}
+    - target: {fileID: 3014305411034214138, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: imageController
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3014305411034214138, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: inventoryScript
+      value: 
+      objectReference: {fileID: 317548836}
+    - target: {fileID: 3014305411034214138, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: inventoryManager
+      value: 
+      objectReference: {fileID: 317548834}
     - target: {fileID: 6014444216156274689, guid: 37d7ce81d3a2cb24995433f50e69c740,
         type: 3}
       propertyPath: m_Name
@@ -18841,6 +18902,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 465924062}
     m_Modifications:
+    - target: {fileID: 79072856422868082, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 940170080329298415, guid: 37d7ce81d3a2cb24995433f50e69c740,
         type: 3}
       propertyPath: m_Pivot.x
@@ -18946,10 +19012,30 @@ PrefabInstance:
       propertyPath: announceUsing
       value: 
       objectReference: {fileID: 2146307547}
+    - target: {fileID: 3014305411034214138, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: imageController
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3014305411034214138, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: inventoryScript
+      value: 
+      objectReference: {fileID: 317548836}
+    - target: {fileID: 3014305411034214138, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: inventoryManager
+      value: 
+      objectReference: {fileID: 317548834}
     - target: {fileID: 6014444216156274689, guid: 37d7ce81d3a2cb24995433f50e69c740,
         type: 3}
       propertyPath: m_Name
       value: Image (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6014444216156274689, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -21639,6 +21725,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 465924062}
     m_Modifications:
+    - target: {fileID: 79072856422868082, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 940170080329298415, guid: 37d7ce81d3a2cb24995433f50e69c740,
         type: 3}
       propertyPath: m_Pivot.x
@@ -21744,6 +21835,21 @@ PrefabInstance:
       propertyPath: announceUsing
       value: 
       objectReference: {fileID: 2146307547}
+    - target: {fileID: 3014305411034214138, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: imageController
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3014305411034214138, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: inventoryScript
+      value: 
+      objectReference: {fileID: 317548836}
+    - target: {fileID: 3014305411034214138, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: inventoryManager
+      value: 
+      objectReference: {fileID: 317548834}
     - target: {fileID: 6014444216156274689, guid: 37d7ce81d3a2cb24995433f50e69c740,
         type: 3}
       propertyPath: m_Name
@@ -23609,8 +23715,14 @@ MonoBehaviour:
   playerInGame: {fileID: 286056996}
   plantsUsing: {fileID: 2096873425}
   announcesBlocks: {fileID: 1593877238}
-  rewardsNow: 000000000000000000000000000000000000000000000000
-  requireNow: 000000000000000000000000000000000000000000000000
+  BgInGame: {fileID: 465924061}
+  statsController: {fileID: 2096873428}
+  announceBlockPrefab: {fileID: 6014444216156274689, guid: 37d7ce81d3a2cb24995433f50e69c740,
+    type: 3}
+  rewardsNow: 0f0000001e0000002d0000003c0000004b000000
+  requireNow: 0300000006000000090000000c0000000f000000
+  infoAboutItem: 
+  randomIndex: 
 --- !u!1001 &3654064206794784292
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23724,6 +23836,16 @@ PrefabInstance:
       propertyPath: announceUsing
       value: 
       objectReference: {fileID: 2146307547}
+    - target: {fileID: 3014305411034214138, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: inventoryScript
+      value: 
+      objectReference: {fileID: 317548836}
+    - target: {fileID: 3014305411034214138, guid: 37d7ce81d3a2cb24995433f50e69c740,
+        type: 3}
+      propertyPath: inventoryManager
+      value: 
+      objectReference: {fileID: 317548834}
     - target: {fileID: 6014444216156274689, guid: 37d7ce81d3a2cb24995433f50e69c740,
         type: 3}
       propertyPath: m_Name

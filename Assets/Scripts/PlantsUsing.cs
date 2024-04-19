@@ -258,9 +258,13 @@ public class PlantsUsing : MonoBehaviour
         if (seedIndex == 3)
         {
             Debug.Log("Harvest");
-            statsController.LevelFill(0.3f);
+            statsController.LevelFill(1.3f);
             Destroy(GameObject.FindGameObjectWithTag("resultPlant"));
-            inventoryScript.PickupItem(seedIndex);
+            int i = Random.Range(6, 9);
+            for (int j = 0; j < i; j++)
+            {
+                inventoryScript.PickupItem(seedIndex);
+            }
             spawnCount = 0;
             seedIndex = 0;
             bedStatus = BedStatus.PLOW;
@@ -269,7 +273,11 @@ public class PlantsUsing : MonoBehaviour
             Debug.Log("Harvest");
             statsController.LevelFill(0.6f);
             Destroy(GameObject.FindGameObjectWithTag("resultPlant"));
-            inventoryScript.PickupItem(seedIndex);
+            int i = Random.Range(6, 9);
+            for (int j = 0; j < i; j++)
+            {
+                inventoryScript.PickupItem(seedIndex);
+            }
             spawnCount = 0;
             seedIndex = 0;
             bedStatus = BedStatus.PLOW;
