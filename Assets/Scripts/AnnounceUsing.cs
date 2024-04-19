@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+[System.Serializable]
 public class AnnounceUsing : MonoBehaviour
 {
     public GameObject announceUI;
@@ -13,11 +14,13 @@ public class AnnounceUsing : MonoBehaviour
     public GameObject BgInGame;
     public StatsController statsController;
     public GameObject announceBlockPrefab;
+    public GameObject inventoryObj;
 
     private GameObject tomatoImg;
     private GameObject cabbageImg;
     private Animation announceAnim;
     private bool announceRunning = false;
+    private int f = 0;
 
     public int[] rewardsNow = new int[5];
     public int[] requireNow = new int[5];
@@ -31,10 +34,21 @@ public class AnnounceUsing : MonoBehaviour
         {
             Debug.Log(rewardsNow[i] + " " + requireNow[i]);
         }
-        int f = BgInGame.transform.childCount;
+        f = BgInGame.transform.childCount;
         infoAboutItem = new char[f];
-        randomIndex = new int[f];   
+        randomIndex = new int[f];
+        SetValue();
     }
+
+    public void SetValue()
+    {
+        int bgImgChildCount = BgInGame.transform.childCount;
+        for (int i = 0;i < bgImgChildCount;i++)
+        {
+            BgInGame.transform.GetChild(i).gameObject.GetComponent<AnnouncesBlocks>().imageController = i;
+        }
+    }
+
     public void ShowAnnounceUI()
     {
         if (announceRunning)
@@ -53,7 +67,10 @@ public class AnnounceUsing : MonoBehaviour
     {
         if (BgInGame.transform.childCount < 6)
         {
-            Instantiate(announceBlockPrefab);
+            GameObject newImgBlock = Instantiate(announceBlockPrefab, BgInGame.transform);
+            newImgBlock.GetComponent<AnnouncesBlocks>().announceUsing = gameObject.GetComponent<AnnounceUsing>();
+            newImgBlock.GetComponent<AnnouncesBlocks>().inventoryManager = inventoryObj.GetComponent<InventoryManager>();
+            newImgBlock.GetComponent<AnnouncesBlocks>().inventoryScript = inventoryObj.GetComponent<InventoryScript>();
         }
         int a = BgInGame.transform.childCount;
         for (int z = 0; z < a; z++)

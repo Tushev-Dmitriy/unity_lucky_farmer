@@ -5,6 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.Progress;
 
+[System.Serializable]
 public class AnnouncesBlocks : MonoBehaviour
 {
     public AnnounceUsing announceUsing;
@@ -34,11 +35,6 @@ public class AnnouncesBlocks : MonoBehaviour
         rewardTextPrefab.GetComponent<TextMeshProUGUI>().text = $"Награда: {announceUsing.rewardsNow[index]}";
     }
 
-    public void SetImgValue(int value)
-    {
-        imageController = value;
-    }
-
     public void CheckRequire()
     {
         InventorySlot primeSlot = inventoryManager.primeSlot;
@@ -61,6 +57,7 @@ public class AnnouncesBlocks : MonoBehaviour
                     primeSlot.GetComponentInChildren<InventoryItem>().RefreshCount();
                 }
                 Destroy(gameObject);
+                announceUsing.RewardAdd();
             }
             else if (announceUsing.infoAboutItem[imageController] == 'c' && itemInSlot.count >= announceUsing.requireNow[index])
             {
