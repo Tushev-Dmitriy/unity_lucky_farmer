@@ -9,8 +9,8 @@ public class PlayerOnBed : MonoBehaviour
     private Color stockColor = new Color(0.52f, 0.39f, 0.26f);
     private Color waterOrange = new Color(1, 0.81f, 0.26f);
     private Color stockWaterColor = new Color(0.28f, 0.21f, 0.15f);
+    
     private bool spawnedNewBed = false;
-
     public bool withWater = false;
 
     public GameObject bed;
@@ -19,26 +19,11 @@ public class PlayerOnBed : MonoBehaviour
     public PlantsUsing plantUsing;
     public ShopUsing shopUsing;
     public AnnounceUsing announceUsing;
+    public InventoryManager inventoryManager;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "emptyBed" || other.tag == "growBed" || 
-            other.tag == "readyBed" || other.tag == "plowBed")
-        {
-            if (!spawnedNewBed)
-            {
-                bed = other.gameObject;
-                bedMaterial = other.gameObject.GetComponent<Renderer>().material;
-                if (withWater)
-                {
-                    bedMaterial.color = waterOrange;
-                } else
-                {
-                    bedMaterial.color = whiteOrange;
-                }
-                nowBed = other.transform;
-            }
-        }
+        bed = other.gameObject;
 
         if (other.tag == "shop")
         {
@@ -75,6 +60,7 @@ public class PlayerOnBed : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
+        bed = null;
         if (other.tag == "emptyBed" || other.tag == "growBed" || 
             other.tag == "readyBed" || other.tag == "plowBed")
         {
@@ -102,6 +88,7 @@ public class PlayerOnBed : MonoBehaviour
         if (other.tag == "announce")
         {
             announceUsing.ShowAnnounceUI();
+            inventoryManager.CheckItem();
         }
     }
 

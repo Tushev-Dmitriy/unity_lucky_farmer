@@ -19,10 +19,7 @@ public class InventoryScript : MonoBehaviour
     public void PickupItem(int id)
     {
         result = inventoryManager.AddItem(itemsToPickup[id]);
-        if (result)
-        {
-            Debug.Log("Add");
-        } else
+        if (!result)
         {
             StartCoroutine(showFullInventory());
         }
@@ -42,7 +39,6 @@ public class InventoryScript : MonoBehaviour
             {
                 coinCount = coinCount - price;
                 coinText.text = coinCount.ToString();
-                Debug.Log("Add");
             }
             else
             {

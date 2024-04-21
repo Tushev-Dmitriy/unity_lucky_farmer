@@ -57,6 +57,7 @@ public class AnnouncesBlocks : MonoBehaviour
                     primeSlot.GetComponentInChildren<InventoryItem>().RefreshCount();
                 }
                 Destroy(gameObject);
+                announceUsing.AddNewBlocks();
                 announceUsing.RewardAdd();
             }
             else if (announceUsing.infoAboutItem[imageController] == 'c' && itemInSlot.count >= announceUsing.requireNow[index])

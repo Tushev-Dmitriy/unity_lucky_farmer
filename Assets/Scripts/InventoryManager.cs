@@ -16,6 +16,8 @@ public class InventoryManager : MonoBehaviour
     public GameObject waterCanObj;
     public GameObject tomatoSeedObj;
     public GameObject cabbageSeedObj;
+    public GameObject tomato;
+    public GameObject cabbage;
 
     [HideInInspector] public string nameOfSlot;
     [HideInInspector] public Item item;
@@ -93,43 +95,71 @@ public class InventoryManager : MonoBehaviour
         if (primeSlot.transform.childCount > 0)
         {
             nameOfSlot = primeSlot.GetComponentInChildren<InventoryItem>().title;
-            if (nameOfSlot == "shovel")
+            switch (nameOfSlot)
             {
-                shovelObj.SetActive(true);
-                hoeObj.SetActive(false);
-                waterCanObj.SetActive(false);
-                tomatoSeedObj.SetActive(false);
-                cabbageSeedObj.SetActive(false);
-            }
-            else if (nameOfSlot == "hoe")
-            {
-                shovelObj.SetActive(false);
-                hoeObj.SetActive(true);
-                waterCanObj.SetActive(false);
-                tomatoSeedObj.SetActive(false);
-                cabbageSeedObj.SetActive(false);
-            }
-            else if (nameOfSlot == "waterCan")
-            {
-                shovelObj.SetActive(false);
-                hoeObj.SetActive(false);
-                waterCanObj.SetActive(true);
-                tomatoSeedObj.SetActive(false);
-                cabbageSeedObj.SetActive(false);
-            } else if (nameOfSlot == "tomatoSeed")
-            {
-                shovelObj.SetActive(false);
-                hoeObj.SetActive(false);
-                waterCanObj.SetActive(false);
-                tomatoSeedObj.SetActive(true);
-                cabbageSeedObj.SetActive(false);
-            } else if (nameOfSlot == "cabbageSeed")
-            {
-                shovelObj.SetActive(false);
-                hoeObj.SetActive(false);
-                waterCanObj.SetActive(false);
-                tomatoSeedObj.SetActive(false);
-                cabbageSeedObj.SetActive(true);
+                case "shovel":
+                    shovelObj.SetActive(true);
+                    hoeObj.SetActive(false);
+                    waterCanObj.SetActive(false);
+                    tomatoSeedObj.SetActive(false);
+                    cabbageSeedObj.SetActive(false);
+                    tomato.SetActive(false);
+                    cabbage.SetActive(false);
+                    break;
+                case "hoe":
+                    shovelObj.SetActive(false);
+                    hoeObj.SetActive(true);
+                    waterCanObj.SetActive(false);
+                    tomatoSeedObj.SetActive(false);
+                    cabbageSeedObj.SetActive(false);
+                    tomato.SetActive(false);
+                    cabbage.SetActive(false);
+                    break;
+                case "waterCan":
+                    shovelObj.SetActive(false);
+                    hoeObj.SetActive(false);
+                    waterCanObj.SetActive(true);
+                    tomatoSeedObj.SetActive(false);
+                    cabbageSeedObj.SetActive(false);
+                    tomato.SetActive(false);
+                    cabbage.SetActive(false);
+                    break;
+                case "tomatoSeed":
+                    shovelObj.SetActive(false);
+                    hoeObj.SetActive(false);
+                    waterCanObj.SetActive(false);
+                    tomatoSeedObj.SetActive(true);
+                    cabbageSeedObj.SetActive(false);
+                    tomato.SetActive(false);
+                    cabbage.SetActive(false);
+                    break;
+                case "cabbageSeed":
+                    shovelObj.SetActive(false);
+                    hoeObj.SetActive(false);
+                    waterCanObj.SetActive(false);
+                    tomatoSeedObj.SetActive(false);
+                    cabbageSeedObj.SetActive(true);
+                    tomato.SetActive(false);
+                    cabbage.SetActive(false);
+                    break;
+                case "tomato":
+                    shovelObj.SetActive(false);
+                    hoeObj.SetActive(false);
+                    waterCanObj.SetActive(false);
+                    tomatoSeedObj.SetActive(false);
+                    cabbageSeedObj.SetActive(false);
+                    tomato.SetActive(true);
+                    cabbage.SetActive(false);
+                    break;
+                case "cabbage":
+                    shovelObj.SetActive(false);
+                    hoeObj.SetActive(false);
+                    waterCanObj.SetActive(false);
+                    tomatoSeedObj.SetActive(false);
+                    cabbageSeedObj.SetActive(false);
+                    tomato.SetActive(false);
+                    cabbage.SetActive(true);
+                    break;
             }
         } else
         {
@@ -138,6 +168,8 @@ public class InventoryManager : MonoBehaviour
             waterCanObj.SetActive(false);
             tomatoSeedObj.SetActive(false);
             cabbageSeedObj.SetActive(false);
+            tomato.SetActive(false);
+            cabbage.SetActive(false);
         }
     }
 }

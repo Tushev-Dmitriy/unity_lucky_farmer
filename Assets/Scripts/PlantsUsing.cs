@@ -34,6 +34,9 @@ public class PlantsUsing : MonoBehaviour
     public StatsController statsController;
     public InventoryScript inventoryScript;
     public InventoryManager inventoryManager;
+    public BedStatusController bedStatusController;
+
+    private BedStatusController.Status currentBedStatus;
 
     private Vector3[] weedSpawnPos = new Vector3[8] {new Vector3(0.45f, 0f, 0f), new Vector3(0.45f, 0f, -0.50f), new Vector3(0.45f, 0f, 0.50f),
                                                      new Vector3(0f, 0f, 0.50f), new Vector3(-0.45f, 0f, 0.50f), new Vector3(-0.45f, 0f, 0f), 
@@ -42,8 +45,6 @@ public class PlantsUsing : MonoBehaviour
     private Vector3 plantPos = new Vector3(0, 0, 0);
     private int spawnCount = 0;
     private int seedIndex = 0;
-    private enum BedStatus { EMPTY, GROW, READY, PLOW };
-    private BedStatus bedStatus = BedStatus.EMPTY;
 
     private bool isGoodPlant = true;
     private GameObject weed;
@@ -55,7 +56,7 @@ public class PlantsUsing : MonoBehaviour
     IEnumerator SeedGrowthRoutine()
     {
         yield return new WaitForSeconds(60);
-        if (bedStatus == BedStatus.GROW)
+        if (currentBedStatus == BedStatusController.Status.GROW)
         {
             Destroy(bed.GetChild(0).gameObject);
             StopCoroutine(SpawnWeeds());
@@ -64,7 +65,8 @@ public class PlantsUsing : MonoBehaviour
             {
                 Destroy(weeds[i]);
             }
-            bedStatus = BedStatus.READY;
+            currentBedStatus = BedStatusController.Status.READY;
+            SetStatusForBed(BedStatusController.Status.READY);
             if (seedIndex == 3)
             {
                 plant = Instantiate(tomatoPlantPrefab, bed.position + plantPos, Quaternion.identity);
@@ -84,12 +86,12 @@ public class PlantsUsing : MonoBehaviour
     {
         if (spawnCount < 1)
         {
-            bed = playerOnBed.bed.transform;
             if (bed != null)
             {
                 Debug.Log("Plant");
                 spawnCount = 1;
-                bedStatus = BedStatus.GROW;
+                currentBedStatus = BedStatusController.Status.GROW;
+                SetStatusForBed(BedStatusController.Status.GROW);
 
                 GameObject startSeed = Instantiate(seedPrefab, bed.position + plantPos, Quaternion.identity);
                 startSeed.transform.parent = bed;
@@ -100,13 +102,18 @@ public class PlantsUsing : MonoBehaviour
         }
     }
 
+    private void SetStatusForBed(BedStatusController.Status currentStatus)
+    {
+        bed.GetComponent<BedStatusController>().SetStatus(currentStatus);
+    }
+
     IEnumerator SpawnWeeds()
     {
-        while (bedStatus == BedStatus.GROW)
+        while (currentBedStatus == BedStatusController.Status.GROW)
         {
             yield return new WaitForSeconds(10f);
 
-            if (bedStatus != BedStatus.GROW)
+            if (currentBedStatus != BedStatusController.Status.GROW)
             {
                 yield break;
             }
@@ -165,17 +172,20 @@ public class PlantsUsing : MonoBehaviour
         startSeed.tag = "resultPlant";
         startSeed.transform.localScale = new Vector3(100, 100, 100);
         isGoodPlant = false;
-        bedStatus = BedStatus.READY;
+        currentBedStatus = BedStatusController.Status.READY;
+        SetStatusForBed(BedStatusController.Status.READY);
     }
 
 
     public void InteractWithBed()
     {
+        bed = playerOnBed.bed.transform;
+        currentBedStatus = bed.GetComponent<BedStatusController>().GetStatus();
         if (shovelDurability > 0 && hoeDurability > 0 && waterCanDurability > 0)
         {
-            switch (bedStatus)
+            switch (currentBedStatus)
             {
-                case BedStatus.EMPTY:
+                case BedStatusController.Status.EMPTY:
                     if (waterCanObj.activeSelf || afterWater)
                     {
                         afterWater = true;
@@ -194,14 +204,14 @@ public class PlantsUsing : MonoBehaviour
                         }
                     }
                     break;
-                case BedStatus.GROW:
+                case BedStatusController.Status.GROW:
                     if (shovelObj.activeSelf)
                     {
                         RemoveWeed();
                         shovelDurability--;
                     }
                     break;
-                case BedStatus.READY:
+                case BedStatusController.Status.READY:
                     afterWater = false;
                     playerOnBed.withWater = afterWater;
                     if (isGoodPlant)
@@ -213,7 +223,7 @@ public class PlantsUsing : MonoBehaviour
                         Revival();
                     }
                     break;
-                case BedStatus.PLOW:
+                case BedStatusController.Status.PLOW:
                     if (hoeObj.activeSelf)
                     {
                         PlowBed();
@@ -267,7 +277,8 @@ public class PlantsUsing : MonoBehaviour
             }
             spawnCount = 0;
             seedIndex = 0;
-            bedStatus = BedStatus.PLOW;
+            currentBedStatus = BedStatusController.Status.PLOW;
+            SetStatusForBed(BedStatusController.Status.PLOW);
         } else if (seedIndex == 4)
         {
             Debug.Log("Harvest");
@@ -280,7 +291,8 @@ public class PlantsUsing : MonoBehaviour
             }
             spawnCount = 0;
             seedIndex = 0;
-            bedStatus = BedStatus.PLOW;
+            currentBedStatus = BedStatusController.Status.PLOW;
+            SetStatusForBed(BedStatusController.Status.PLOW);
         }
     }
 
@@ -289,12 +301,14 @@ public class PlantsUsing : MonoBehaviour
         Debug.Log("Revival");
         Destroy(GameObject.FindGameObjectWithTag("resultPlant"));
         spawnCount = 0;
-        bedStatus = BedStatus.PLOW;
+        currentBedStatus = BedStatusController.Status.PLOW;
+        SetStatusForBed(BedStatusController.Status.PLOW);
     }
 
     private void PlowBed()
     {
         Debug.Log("Plow");
-        bedStatus = BedStatus.EMPTY;
+        currentBedStatus = BedStatusController.Status.EMPTY;
+        SetStatusForBed(BedStatusController.Status.EMPTY);
     }
 }

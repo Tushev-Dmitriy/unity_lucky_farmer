@@ -30,10 +30,6 @@ public class AnnounceUsing : MonoBehaviour
     private void Start()
     {
         announceAnim = announceUI.GetComponent<Animation>();
-        for (int i = 0; i < rewardsNow.Length; i++)
-        {
-            Debug.Log(rewardsNow[i] + " " + requireNow[i]);
-        }
         f = BgInGame.transform.childCount;
         infoAboutItem = new char[f];
         randomIndex = new int[f];
@@ -67,11 +63,24 @@ public class AnnounceUsing : MonoBehaviour
     {
         if (BgInGame.transform.childCount < 6)
         {
-            GameObject newImgBlock = Instantiate(announceBlockPrefab, BgInGame.transform);
-            newImgBlock.GetComponent<AnnouncesBlocks>().announceUsing = gameObject.GetComponent<AnnounceUsing>();
-            newImgBlock.GetComponent<AnnouncesBlocks>().inventoryManager = inventoryObj.GetComponent<InventoryManager>();
-            newImgBlock.GetComponent<AnnouncesBlocks>().inventoryScript = inventoryObj.GetComponent<InventoryScript>();
+            AddNewBlocks();
+            SetValueForBlocks();
+        } else
+        {
+            SetValueForBlocks();
         }
+    }
+
+    public void AddNewBlocks()
+    {
+        GameObject newImgBlock = Instantiate(announceBlockPrefab, BgInGame.transform);
+        newImgBlock.GetComponent<AnnouncesBlocks>().announceUsing = gameObject.GetComponent<AnnounceUsing>();
+        newImgBlock.GetComponent<AnnouncesBlocks>().inventoryManager = inventoryObj.GetComponent<InventoryManager>();
+        newImgBlock.GetComponent<AnnouncesBlocks>().inventoryScript = inventoryObj.GetComponent<InventoryScript>();
+    }
+
+    private void SetValueForBlocks()
+    {
         int a = BgInGame.transform.childCount;
         for (int z = 0; z < a; z++)
         {
@@ -89,14 +98,16 @@ public class AnnounceUsing : MonoBehaviour
             {
                 tomatoImg.SetActive(true);
                 aboutItem = 't';
-            } else
+            }
+            else
             {
                 int c = Random.Range(0, 2);
                 if (c == 0)
                 {
                     tomatoImg.SetActive(true);
                     aboutItem = 't';
-                } else
+                }
+                else
                 {
                     cabbageImg.SetActive(true);
                     aboutItem = 'c';
