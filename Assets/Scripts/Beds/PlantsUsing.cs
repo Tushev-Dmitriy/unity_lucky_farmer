@@ -84,21 +84,19 @@ public class PlantsUsing : MonoBehaviour
 
     private void PlantSeed()
     {
-        if (spawnCount < 1)
+        if (bed != null)
         {
-            if (bed != null)
-            {
-                Debug.Log("Plant");
-                spawnCount = 1;
-                currentBedStatus = BedStatusController.Status.GROW;
-                SetStatusForBed(BedStatusController.Status.GROW);
+            Debug.Log("Plant");
+            inventoryManager.UsingSeed();
+            spawnCount = 1;
+            currentBedStatus = BedStatusController.Status.GROW;
+            SetStatusForBed(BedStatusController.Status.GROW);
 
-                GameObject startSeed = Instantiate(seedPrefab, bed.position + plantPos, Quaternion.identity);
-                startSeed.transform.parent = bed;
-                startSeed.transform.localScale = new Vector3(100, 100, 100);
-                StartCoroutine(SeedGrowthRoutine());
-                StartCoroutine(SpawnWeeds());
-            }
+            GameObject startSeed = Instantiate(seedPrefab, bed.position + plantPos, Quaternion.identity);
+            startSeed.transform.parent = bed;
+            startSeed.transform.localScale = new Vector3(100, 100, 100);
+            StartCoroutine(SeedGrowthRoutine());
+            StartCoroutine(SpawnWeeds());
         }
     }
 
@@ -181,6 +179,8 @@ public class PlantsUsing : MonoBehaviour
     {
         bed = playerOnBed.bed.transform;
         currentBedStatus = bed.GetComponent<BedStatusController>().GetStatus();
+        Debug.Log(bed);
+        Debug.Log(currentBedStatus);
         if (shovelDurability > 0 && hoeDurability > 0 && waterCanDurability > 0)
         {
             switch (currentBedStatus)

@@ -74,6 +74,8 @@ public class AnnouncesBlocks : MonoBehaviour
                     primeSlot.GetComponentInChildren<InventoryItem>().RefreshCount();
                 }
                 Destroy(gameObject);
+                announceUsing.AddNewBlocks();
+                announceUsing.RewardAdd();
             }
         }
     }
