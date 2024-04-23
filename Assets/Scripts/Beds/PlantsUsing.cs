@@ -4,37 +4,16 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class PlantsUsing : MonoBehaviour
 {
-    public GameObject tomatoPlantPrefab;
-    public GameObject tomatoPrefab;
-    public GameObject cabbagePlantPrefab;
-    public GameObject cabbagePrefab;
-    public GameObject seedPrefab;
-    public GameObject weedPrefab;
-    public GameObject endWeedPrefab;
-    public GameObject plowTerrain;
     public Transform bed;
-    public PlayerOnBed playerOnBed;
-    public InventorySlot primeSlot;
-    
-    public int shovelDurability = 100;
-    public int hoeDurability = 100;
-    public int waterCanDurability = 100;
+    public class InteractObject : UnityEvent<GameObject> { }
 
-    public GameObject shovelObj;
-    public GameObject hoeObj;
-    public GameObject waterCanObj;
-    public GameObject tomatoSeedObj;
-    public GameObject cabbageSeedObj;
-
-    public GameObject logText;
-    public TMP_Text log_Text;
-    public StatsController statsController;
-    public InventoryScript inventoryScript;
-    public InventoryManager inventoryManager;
-    public BedStatusController bedStatusController;
+    public ObjectsForBed objectsForBed;
+    public GameObject plantBtn;
 
     private BedStatusController.Status currentBedStatus;
 
@@ -52,6 +31,10 @@ public class PlantsUsing : MonoBehaviour
     private float duration = 30f;
     private bool afterWater = false;
 
+    private void Start()
+    {
+        gameObject.GetComponent<PlantsUsing>().bed = gameObject.transform;
+    }
 
     IEnumerator SeedGrowthRoutine()
     {
@@ -69,10 +52,10 @@ public class PlantsUsing : MonoBehaviour
             SetStatusForBed(BedStatusController.Status.READY);
             if (seedIndex == 3)
             {
-                plant = Instantiate(tomatoPlantPrefab, bed.position + plantPos, Quaternion.identity);
+                plant = Instantiate(objectsForBed.tomatoPlantPrefab, bed.position + plantPos, Quaternion.identity);
             } else if (seedIndex == 4)
             {
-                plant = Instantiate(cabbagePlantPrefab, bed.position + plantPos, Quaternion.identity);
+                plant = Instantiate(objectsForBed.cabbagePlantPrefab, bed.position + plantPos, Quaternion.identity);
             }
 
             plant.transform.parent = bed;
@@ -87,12 +70,12 @@ public class PlantsUsing : MonoBehaviour
         if (bed != null)
         {
             Debug.Log("Plant");
-            inventoryManager.UsingSeed();
+            objectsForBed.inventoryManager.UsingSeed();
             spawnCount = 1;
             currentBedStatus = BedStatusController.Status.GROW;
             SetStatusForBed(BedStatusController.Status.GROW);
 
-            GameObject startSeed = Instantiate(seedPrefab, bed.position + plantPos, Quaternion.identity);
+            GameObject startSeed = Instantiate(objectsForBed.seedPrefab, bed.position + plantPos, Quaternion.identity);
             startSeed.transform.parent = bed;
             startSeed.transform.localScale = new Vector3(100, 100, 100);
             StartCoroutine(SeedGrowthRoutine());
@@ -111,6 +94,8 @@ public class PlantsUsing : MonoBehaviour
         {
             yield return new WaitForSeconds(10f);
 
+            Debug.Log(bed.gameObject);
+
             if (currentBedStatus != BedStatusController.Status.GROW)
             {
                 yield break;
@@ -118,7 +103,7 @@ public class PlantsUsing : MonoBehaviour
 
             Vector3 randomWeedPos = weedSpawnPos[Random.Range(0, weedSpawnPos.Length)];
 
-            weed = Instantiate(weedPrefab, bed.position + randomWeedPos, Quaternion.identity);
+            weed = Instantiate(objectsForBed.weedPrefab, bed.position + randomWeedPos, Quaternion.identity);
             weed.tag = "weed";
             weed.transform.parent = bed;
             weed.transform.localScale = new Vector3(50, 50, 50);
@@ -135,7 +120,7 @@ public class PlantsUsing : MonoBehaviour
         GameObject[] weeds = GameObject.FindGameObjectsWithTag("weed");
         foreach (GameObject weed in weeds)
         {
-            if (weed.transform.parent == playerOnBed.nowBed)
+            if (weed.transform.parent == objectsForBed.playerOnBed.nowBed)
             {
                 Destroy(weed);
             }
@@ -165,7 +150,7 @@ public class PlantsUsing : MonoBehaviour
         {
             Destroy(weeds[i]);
         }
-        GameObject startSeed = Instantiate(endWeedPrefab, bed.position + plantPos, Quaternion.identity);
+        GameObject startSeed = Instantiate(objectsForBed.endWeedPrefab, bed.position + plantPos, Quaternion.identity);
         startSeed.transform.parent = bed;
         startSeed.tag = "resultPlant";
         startSeed.transform.localScale = new Vector3(100, 100, 100);
@@ -174,46 +159,55 @@ public class PlantsUsing : MonoBehaviour
         SetStatusForBed(BedStatusController.Status.READY);
     }
 
-
-    public void InteractWithBed()
+    public void AddOrRemoveListenerForInteract(bool isAdd, GameObject bed)
     {
-        bed = playerOnBed.bed.transform;
+        if (isAdd)
+        {
+            plantBtn.GetComponent<Button>().onClick.AddListener(delegate {InteractWithBed(bed); });
+        } else
+        {
+            plantBtn.GetComponent<Button>().onClick.RemoveAllListeners();
+        }
+    }
+
+    public void InteractWithBed(GameObject bed)
+    {
         currentBedStatus = bed.GetComponent<BedStatusController>().GetStatus();
         Debug.Log(bed);
         Debug.Log(currentBedStatus);
-        if (shovelDurability > 0 && hoeDurability > 0 && waterCanDurability > 0)
+        if (objectsForBed.shovelDurability > 0 && objectsForBed.hoeDurability > 0 && objectsForBed.waterCanDurability > 0)
         {
             switch (currentBedStatus)
             {
                 case BedStatusController.Status.EMPTY:
-                    if (waterCanObj.activeSelf || afterWater)
+                    if (objectsForBed.waterCanObj.activeSelf || afterWater)
                     {
                         afterWater = true;
-                        playerOnBed.withWater = afterWater;
-                        if (tomatoSeedObj.activeSelf)
+                        objectsForBed.playerOnBed.withWater = afterWater;
+                        if (objectsForBed.tomatoSeedObj.activeSelf)
                         {
                             PlantSeed();
-                            waterCanDurability--;
+                            objectsForBed.waterCanDurability--;
                             seedIndex = 3;
                         }
-                        if (cabbageSeedObj.activeSelf)
+                        if (objectsForBed.cabbageSeedObj.activeSelf)
                         {
                             PlantSeed();
-                            waterCanDurability--;
+                            objectsForBed.waterCanDurability--;
                             seedIndex = 4;
                         }
                     }
                     break;
                 case BedStatusController.Status.GROW:
-                    if (shovelObj.activeSelf)
+                    if (objectsForBed.shovelObj.activeSelf)
                     {
                         RemoveWeed();
-                        shovelDurability--;
+                        objectsForBed.shovelDurability--;
                     }
                     break;
                 case BedStatusController.Status.READY:
                     afterWater = false;
-                    playerOnBed.withWater = afterWater;
+                    objectsForBed.playerOnBed.withWater = afterWater;
                     if (isGoodPlant)
                     {
                         Harvest();
@@ -224,10 +218,10 @@ public class PlantsUsing : MonoBehaviour
                     }
                     break;
                 case BedStatusController.Status.PLOW:
-                    if (hoeObj.activeSelf)
+                    if (objectsForBed.hoeObj.activeSelf)
                     {
                         PlowBed();
-                        hoeDurability--;
+                        objectsForBed.hoeDurability--;
                     }
                     break;
             }
@@ -244,23 +238,23 @@ public class PlantsUsing : MonoBehaviour
         GameObject hoeNow = GameObject.FindGameObjectWithTag("hoe");
         GameObject waterCan = GameObject.FindGameObjectWithTag("waterCan");
 
-        if (shovelNow.activeSelf && shovelDurability <= 0)
+        if (shovelNow.activeSelf && objectsForBed.shovelDurability <= 0)
         {
             shovelNow.SetActive(false);
-            inventoryManager.DeleteItem(primeSlot);
-        } else if (hoeNow.activeSelf && hoeDurability <= 0)
+            objectsForBed.inventoryManager.DeleteItem(objectsForBed.primeSlot);
+        } else if (hoeNow.activeSelf && objectsForBed.hoeDurability <= 0)
         {
             hoeNow.SetActive(false);
-            inventoryManager.DeleteItem(primeSlot);
-        } else if (waterCan.activeSelf && waterCanDurability <= 0)
+            objectsForBed.inventoryManager.DeleteItem(objectsForBed.primeSlot);
+        } else if (waterCan.activeSelf && objectsForBed.waterCanDurability <= 0)
         {
             waterCan.SetActive(false);
-            inventoryManager.DeleteItem(primeSlot);
+            objectsForBed.inventoryManager.DeleteItem(objectsForBed.primeSlot);
         }
-        log_Text.text = "Durability is zero, go to the shop";
-        logText.GetComponent<Animation>().Play("textUp");
+        objectsForBed.log_Text.text = "Durability is zero, go to the shop";
+        objectsForBed.logText.GetComponent<Animation>().Play("textUp");
         yield return new WaitForSeconds(2.5f);
-        logText.GetComponent<Animation>().Play("textDown");
+        objectsForBed.logText.GetComponent<Animation>().Play("textDown");
     }
 
     private void Harvest()
@@ -268,12 +262,12 @@ public class PlantsUsing : MonoBehaviour
         if (seedIndex == 3)
         {
             Debug.Log("Harvest");
-            statsController.LevelFill(1.3f);
+            objectsForBed.statsController.LevelFill(1.3f);
             Destroy(GameObject.FindGameObjectWithTag("resultPlant"));
             int i = Random.Range(6, 9);
             for (int j = 0; j < i; j++)
             {
-                inventoryScript.PickupItem(seedIndex);
+                objectsForBed.inventoryScript.PickupItem(seedIndex);
             }
             spawnCount = 0;
             seedIndex = 0;
@@ -282,12 +276,12 @@ public class PlantsUsing : MonoBehaviour
         } else if (seedIndex == 4)
         {
             Debug.Log("Harvest");
-            statsController.LevelFill(0.6f);
+            objectsForBed.statsController.LevelFill(0.6f);
             Destroy(GameObject.FindGameObjectWithTag("resultPlant"));
             int i = Random.Range(6, 9);
             for (int j = 0; j < i; j++)
             {
-                inventoryScript.PickupItem(seedIndex);
+                objectsForBed.inventoryScript.PickupItem(seedIndex);
             }
             spawnCount = 0;
             seedIndex = 0;

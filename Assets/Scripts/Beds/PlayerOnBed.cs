@@ -23,7 +23,12 @@ public class PlayerOnBed : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        bed = other.gameObject;
+        if (other.tag == "emptyBed" || other.tag == "growBed" ||
+            other.tag == "readyBed" || other.tag == "plowBed")
+        {
+            plantUsing.bed = other.gameObject.transform;
+            plantUsing.AddOrRemoveListenerForInteract(true, other.gameObject);
+        }
 
         if (other.tag == "shop")
         {
@@ -60,10 +65,10 @@ public class PlayerOnBed : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        bed = null;
         if (other.tag == "emptyBed" || other.tag == "growBed" || 
             other.tag == "readyBed" || other.tag == "plowBed")
         {
+            plantUsing.AddOrRemoveListenerForInteract(false, other.gameObject);
             if (!spawnedNewBed)
             {
                 bed = null;

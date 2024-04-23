@@ -14,6 +14,7 @@ public class ShopUsing : MonoBehaviour
     public StatsController statsController;
     public ShopItems shopItems;
     public Image[] itemsInShop;
+    public ObjectsForBed objectsForBed;
 
     private Animation shopAnim;
     private bool shopRunning = false;
@@ -91,17 +92,17 @@ public class ShopUsing : MonoBehaviour
         switch (i)
         {
             case 1:
-                plantsUsing.shovelDurability = 100;
+                objectsForBed.shovelDurability = 100;
                 inventoryScript.BuyItem(0);
                 break;
 
             case 2:
-                plantsUsing.hoeDurability = 100;
+                objectsForBed.hoeDurability = 100;
                 inventoryScript.BuyItem(1);
                 break;
 
             case 3:
-                plantsUsing.waterCanDurability = 100;
+                objectsForBed.waterCanDurability = 100;
                 inventoryScript.BuyItem(2);
                 break;
 
