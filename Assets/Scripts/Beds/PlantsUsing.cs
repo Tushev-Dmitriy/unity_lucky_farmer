@@ -15,8 +15,9 @@ public class PlantsUsing : MonoBehaviour
     public ObjectsForBed objectsForBed;
     public GameObject plantBtn;
 
-    private BedStatusController.Status currentBedStatus;
+    public bool afterWater = false;
 
+    private BedStatusController.Status currentBedStatus;
     private Vector3[] weedSpawnPos = new Vector3[8] {new Vector3(0.45f, 0f, 0f), new Vector3(0.45f, 0f, -0.50f), new Vector3(0.45f, 0f, 0.50f),
                                                      new Vector3(0f, 0f, 0.50f), new Vector3(-0.45f, 0f, 0.50f), new Vector3(-0.45f, 0f, 0f), 
                                                      new Vector3(-0.45f, 0f, -0.50f), new Vector3(0f, 0f, -0.50f)};
@@ -29,7 +30,6 @@ public class PlantsUsing : MonoBehaviour
     private GameObject weed;
     private GameObject plant;
     private float duration = 30f;
-    private bool afterWater = false;
 
     private void Start()
     {
@@ -61,7 +61,6 @@ public class PlantsUsing : MonoBehaviour
             plant.transform.parent = bed;
             plant.transform.localScale = new Vector3(100, 100, 100);
             plant.tag = "resultPlant";
-            Debug.Log("Plant grown");
         }
     }
 
@@ -69,7 +68,6 @@ public class PlantsUsing : MonoBehaviour
     {
         if (bed != null)
         {
-            Debug.Log("Plant");
             objectsForBed.inventoryManager.UsingSeed();
             spawnCount = 1;
             currentBedStatus = BedStatusController.Status.GROW;
@@ -93,8 +91,6 @@ public class PlantsUsing : MonoBehaviour
         while (currentBedStatus == BedStatusController.Status.GROW)
         {
             yield return new WaitForSeconds(10f);
-
-            Debug.Log(bed.gameObject);
 
             if (currentBedStatus != BedStatusController.Status.GROW)
             {
@@ -173,8 +169,6 @@ public class PlantsUsing : MonoBehaviour
     public void InteractWithBed(GameObject bed)
     {
         currentBedStatus = bed.GetComponent<BedStatusController>().GetStatus();
-        Debug.Log(bed);
-        Debug.Log(currentBedStatus);
         if (objectsForBed.shovelDurability > 0 && objectsForBed.hoeDurability > 0 && objectsForBed.waterCanDurability > 0)
         {
             switch (currentBedStatus)
@@ -261,7 +255,6 @@ public class PlantsUsing : MonoBehaviour
     {
         if (seedIndex == 3)
         {
-            Debug.Log("Harvest");
             objectsForBed.statsController.LevelFill(1.3f);
             Destroy(GameObject.FindGameObjectWithTag("resultPlant"));
             int i = Random.Range(6, 9);
@@ -275,7 +268,6 @@ public class PlantsUsing : MonoBehaviour
             SetStatusForBed(BedStatusController.Status.PLOW);
         } else if (seedIndex == 4)
         {
-            Debug.Log("Harvest");
             objectsForBed.statsController.LevelFill(0.6f);
             Destroy(GameObject.FindGameObjectWithTag("resultPlant"));
             int i = Random.Range(6, 9);
@@ -292,7 +284,6 @@ public class PlantsUsing : MonoBehaviour
 
     private void Revival()
     {
-        Debug.Log("Revival");
         Destroy(GameObject.FindGameObjectWithTag("resultPlant"));
         spawnCount = 0;
         currentBedStatus = BedStatusController.Status.PLOW;
@@ -301,7 +292,6 @@ public class PlantsUsing : MonoBehaviour
 
     private void PlowBed()
     {
-        Debug.Log("Plow");
         currentBedStatus = BedStatusController.Status.EMPTY;
         SetStatusForBed(BedStatusController.Status.EMPTY);
     }
