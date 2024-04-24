@@ -5,7 +5,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEditor.Progress;
 
-[System.Serializable]
 public class AnnouncesBlocks : MonoBehaviour
 {
     public AnnounceUsing announceUsing;

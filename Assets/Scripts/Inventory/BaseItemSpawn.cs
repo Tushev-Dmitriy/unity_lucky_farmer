@@ -10,7 +10,6 @@ public class BaseItemSpawn : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             inventoryScript.PickupItem(i);
-            inventoryScript.PickupItem(5);
         }
     }
 }

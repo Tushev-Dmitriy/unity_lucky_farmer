@@ -12,8 +12,8 @@ public class SpawnBed : MonoBehaviour
     private Color whiteGreen = new Color(0.73f, 1f, 0.73f);
     private Material bedMaterial;
 
-    public GameObject terrainPrefab;
     public GameObject playerInGame;
+    public GameObject terrainPrefab;
     public TerrainColor terrainColor;
 
     public GameObject spawnButton;

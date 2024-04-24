@@ -73,7 +73,7 @@ public class InventoryManager : MonoBehaviour
 
     public void DeleteItem(InventorySlot slot)
     {
-        if (deleteSlot.transform.childCount > 0)
+        if (slot.transform.childCount > 0)
         {
             InventoryItem itemInSlot = slot.GetComponentInChildren<InventoryItem>();
             if (itemInSlot != null)

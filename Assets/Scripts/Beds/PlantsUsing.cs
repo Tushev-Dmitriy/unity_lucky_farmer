@@ -10,7 +10,6 @@ using UnityEngine.UI;
 public class PlantsUsing : MonoBehaviour
 {
     public Transform bed;
-    public class InteractObject : UnityEvent<GameObject> { }
 
     public ObjectsForBed objectsForBed;
     public GameObject plantBtn;
@@ -59,7 +58,7 @@ public class PlantsUsing : MonoBehaviour
             }
 
             plant.transform.parent = bed;
-            plant.transform.localScale = new Vector3(100, 100, 100);
+            plant.transform.localScale = new Vector3(3.25f, 3.25f, 3.25f);
             plant.tag = "resultPlant";
         }
     }
@@ -75,7 +74,7 @@ public class PlantsUsing : MonoBehaviour
 
             GameObject startSeed = Instantiate(objectsForBed.seedPrefab, bed.position + plantPos, Quaternion.identity);
             startSeed.transform.parent = bed;
-            startSeed.transform.localScale = new Vector3(100, 100, 100);
+            startSeed.transform.localScale = new Vector3(3.5f, 3.5f, 3.5f);
             StartCoroutine(SeedGrowthRoutine());
             StartCoroutine(SpawnWeeds());
         }
@@ -102,7 +101,7 @@ public class PlantsUsing : MonoBehaviour
             weed = Instantiate(objectsForBed.weedPrefab, bed.position + randomWeedPos, Quaternion.identity);
             weed.tag = "weed";
             weed.transform.parent = bed;
-            weed.transform.localScale = new Vector3(50, 50, 50);
+            weed.transform.localScale = new Vector3(2, 2, 2);
 
             StartCoroutine(WeedTimer());
             isGoodPlant = false;
@@ -149,7 +148,7 @@ public class PlantsUsing : MonoBehaviour
         GameObject startSeed = Instantiate(objectsForBed.endWeedPrefab, bed.position + plantPos, Quaternion.identity);
         startSeed.transform.parent = bed;
         startSeed.tag = "resultPlant";
-        startSeed.transform.localScale = new Vector3(100, 100, 100);
+        startSeed.transform.localScale = new Vector3(3.25f, 3.25f, 3.25f);
         isGoodPlant = false;
         currentBedStatus = BedStatusController.Status.READY;
         SetStatusForBed(BedStatusController.Status.READY);
@@ -210,6 +209,7 @@ public class PlantsUsing : MonoBehaviour
                     {
                         Revival();
                     }
+                    SwapTerrain();
                     break;
                 case BedStatusController.Status.PLOW:
                     if (objectsForBed.hoeObj.activeSelf)
@@ -232,15 +232,15 @@ public class PlantsUsing : MonoBehaviour
         GameObject hoeNow = GameObject.FindGameObjectWithTag("hoe");
         GameObject waterCan = GameObject.FindGameObjectWithTag("waterCan");
 
-        if (shovelNow.activeSelf && objectsForBed.shovelDurability <= 0)
+        if (shovelNow.activeSelf && objectsForBed.shovelDurability < 1)
         {
             shovelNow.SetActive(false);
             objectsForBed.inventoryManager.DeleteItem(objectsForBed.primeSlot);
-        } else if (hoeNow.activeSelf && objectsForBed.hoeDurability <= 0)
+        } else if (hoeNow.activeSelf && objectsForBed.hoeDurability < 1)
         {
             hoeNow.SetActive(false);
             objectsForBed.inventoryManager.DeleteItem(objectsForBed.primeSlot);
-        } else if (waterCan.activeSelf && objectsForBed.waterCanDurability <= 0)
+        } else if (waterCan.activeSelf && objectsForBed.waterCanDurability < 1)
         {
             waterCan.SetActive(false);
             objectsForBed.inventoryManager.DeleteItem(objectsForBed.primeSlot);
@@ -251,11 +251,18 @@ public class PlantsUsing : MonoBehaviour
         objectsForBed.logText.GetComponent<Animation>().Play("textDown");
     }
 
+    private void SwapTerrain()
+    {
+        gameObject.GetComponent<MeshFilter>().mesh = objectsForBed.plantTerrainPrefab.GetComponent<MeshFilter>().mesh;
+        gameObject.transform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+        gameObject.GetComponent<BoxCollider>().size = new Vector3(128, 0.22f, 128);
+    }
+
     private void Harvest()
     {
         if (seedIndex == 3)
         {
-            objectsForBed.statsController.LevelFill(1.3f);
+            objectsForBed.statsController.LevelFill(0.3f);
             Destroy(GameObject.FindGameObjectWithTag("resultPlant"));
             int i = Random.Range(6, 9);
             for (int j = 0; j < i; j++)
@@ -292,6 +299,9 @@ public class PlantsUsing : MonoBehaviour
 
     private void PlowBed()
     {
+        gameObject.GetComponent<MeshFilter>().mesh = objectsForBed.terrainPrefab.GetComponent<MeshFilter>().mesh;
+        gameObject.transform.localScale = new Vector3(0.32f, 0.32f, 0.32f);
+        gameObject.GetComponent<BoxCollider>().size = new Vector3(4, 0.22f, 4);
         currentBedStatus = BedStatusController.Status.EMPTY;
         SetStatusForBed(BedStatusController.Status.EMPTY);
     }

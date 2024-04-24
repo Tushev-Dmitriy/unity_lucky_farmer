@@ -25,9 +25,7 @@ public class PlayerOnBed : MonoBehaviour
         if (other.tag == "emptyBed" || other.tag == "growBed" ||
             other.tag == "readyBed" || other.tag == "plowBed")
         {
-            plantUsing = other.gameObject.GetComponent<PlantsUsing>();
-            plantUsing.bed = other.gameObject.transform;
-            plantUsing.AddOrRemoveListenerForInteract(true, other.gameObject);
+            SetBedForPlayer(other, true);
             withWater = plantUsing.afterWater;
             if (withWater)
             {
@@ -74,9 +72,7 @@ public class PlayerOnBed : MonoBehaviour
         if (other.tag == "emptyBed" || other.tag == "growBed" || 
             other.tag == "readyBed" || other.tag == "plowBed")
         {
-            plantUsing = other.gameObject.GetComponent<PlantsUsing>();
-            plantUsing.AddOrRemoveListenerForInteract(false, other.gameObject);
-            bedMaterial = other.gameObject.GetComponent<Renderer>().material;
+            SetBedForPlayer(other, false);
             withWater = plantUsing.afterWater;
             if (withWater)
             {
@@ -100,5 +96,12 @@ public class PlayerOnBed : MonoBehaviour
             announceUsing.ShowAnnounceUI();
             inventoryManager.CheckItem();
         }
+    }
+
+    public void SetBedForPlayer(Collider other, bool isAdd)
+    {
+        plantUsing = other.gameObject.GetComponent<PlantsUsing>();
+        plantUsing.bed = other.gameObject.transform;
+        plantUsing.AddOrRemoveListenerForInteract(isAdd, other.gameObject);
     }
 }

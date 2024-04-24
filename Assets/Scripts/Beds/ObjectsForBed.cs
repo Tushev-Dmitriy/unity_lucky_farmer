@@ -12,7 +12,8 @@ public class ObjectsForBed : MonoBehaviour
     public GameObject seedPrefab;
     public GameObject weedPrefab;
     public GameObject endWeedPrefab;
-    public GameObject plowTerrain;
+    public GameObject plantTerrainPrefab;
+    public GameObject terrainPrefab;
 
     public PlayerOnBed playerOnBed;
     public InventorySlot primeSlot;
