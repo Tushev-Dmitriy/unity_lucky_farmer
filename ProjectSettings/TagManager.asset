@@ -21,6 +21,7 @@ TagManager:
   - waterCan
   - tomatoSeed
   - cabbageSeed
+  - flowers
   layers:
   - Default
   - TransparentFX
