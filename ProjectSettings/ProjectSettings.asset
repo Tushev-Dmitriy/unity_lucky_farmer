@@ -5,10 +5,10 @@ PlayerSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 26
   productGUID: 77e3fc8c30e500f43871240910f87f57
-  AndroidProfiler: 0
+  AndroidProfiler: 1
   AndroidFilterTouchesWhenObscured: 0
   AndroidEnableSustainedPerformanceMode: 0
-  defaultScreenOrientation: 4
+  defaultScreenOrientation: 2
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
@@ -86,7 +86,7 @@ PlayerSettings:
   hideHomeButton: 0
   submitAnalytics: 1
   usePlayerLog: 1
-  bakeCollisionMeshes: 0
+  bakeCollisionMeshes: 1
   forceSingleInstance: 0
   useFlipModelSwapchain: 1
   resizableWindow: 0
@@ -135,9 +135,11 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   bundleVersion: 1.0
   preloadedAssets:
-  - {fileID: 3922817585946335791, guid: 71b710a8c665c1746b6348c5af0b7f19, type: 2}
-  - {fileID: 11400000, guid: 16732c69f349ec94c987be68ee465860, type: 2}
-  - {fileID: 11400000, guid: dbace17538c6e34489b679352a745da0, type: 2}
+  - {fileID: 5251172169589573554, guid: 2d0b427ea750f1942b2dc6da856c0f9c, type: 3}
+  - {fileID: 4373080667063482954, guid: 57916acc11001cd4a8762c0d10e3e66d, type: 3}
+  - {fileID: 919132149155446097, guid: 0ac7b4024576c304a83edbfb69f72993, type: 3}
+  - {fileID: 919132149155446097, guid: 619cd65033eeca649b551263d72540c2, type: 3}
+  - {fileID: 919132149155446097, guid: 1dba8e83ab1285449bce6d123321372f, type: 3}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -146,7 +148,7 @@ PlayerSettings:
   vrSettings:
     enable360StereoCapture: 0
   isWsaHolographicRemotingEnabled: 0
-  enableFrameTimingStats: 0
+  enableFrameTimingStats: 1
   enableOpenGLProfilerGPURecorders: 1
   useHDRDisplay: 0
   hdrBitDepth: 0
