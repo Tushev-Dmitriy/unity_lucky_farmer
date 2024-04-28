@@ -90,8 +90,8 @@ public class AnnounceUsing : MonoBehaviour
             randomIndex[z] = b;
             announcesBlocks.SwapRequireText(b);
             announcesBlocks.SwapRewardText(b);
-            tomatoImg = imgNow.transform.GetChild(3).gameObject;
-            cabbageImg = imgNow.transform.GetChild(4).gameObject;
+            tomatoImg = imgNow.transform.GetChild(2).gameObject;
+            cabbageImg = imgNow.transform.GetChild(3).gameObject;
             char aboutItem;
             if (statsController.playerLevel < 2)
             {
