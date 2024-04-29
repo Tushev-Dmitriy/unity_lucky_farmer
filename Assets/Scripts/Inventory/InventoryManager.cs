@@ -18,6 +18,10 @@ public class InventoryManager : MonoBehaviour
     public GameObject tomato;
     public GameObject cabbage;
 
+    public GameObject firstSlot;
+    public GameObject firstSlotChild;
+    public GameObject secondSlotChild;
+
     [HideInInspector] public string nameOfSlot;
     [HideInInspector] public Item item;
 
