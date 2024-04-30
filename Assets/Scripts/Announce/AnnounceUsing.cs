@@ -88,10 +88,10 @@ public class AnnounceUsing : MonoBehaviour
             announcesBlocks = imgAnnounce;
             int b = Random.Range(0, 5);
             randomIndex[z] = b;
-            announcesBlocks.SwapRequireText(b);
-            announcesBlocks.SwapRewardText(b);
             tomatoImg = imgNow.transform.GetChild(2).gameObject;
             cabbageImg = imgNow.transform.GetChild(3).gameObject;
+            tomatoImg.gameObject.SetActive(false);
+            cabbageImg.gameObject.SetActive(false);
             char aboutItem;
             if (statsController.playerLevel < 2)
             {
@@ -111,6 +111,8 @@ public class AnnounceUsing : MonoBehaviour
                     cabbageImg.SetActive(true);
                     aboutItem = 'c';
                 }
+                announcesBlocks.SwapRequireText(b);
+                announcesBlocks.SwapRewardText(b, aboutItem);
             }
             infoAboutItem[z] = aboutItem;
         }

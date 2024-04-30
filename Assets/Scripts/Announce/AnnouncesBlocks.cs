@@ -27,9 +27,15 @@ public class AnnouncesBlocks : MonoBehaviour
         requireTextPrefab.GetComponent<TextMeshProUGUI>().text = $"Требования: {announceUsing.requireNow[index]}";
     }
 
-    public void SwapRewardText(int index)
+    public void SwapRewardText(int index, char name)
     {
-        rewardTextPrefab.GetComponent<TextMeshProUGUI>().text = $"Награда: {announceUsing.rewardsNow[index]}";
+        if (name == 'c')
+        {
+            rewardTextPrefab.GetComponent<TextMeshProUGUI>().text = $"Награда: {announceUsing.rewardsNow[index]*10}";
+        } else
+        {
+            rewardTextPrefab.GetComponent<TextMeshProUGUI>().text = $"Награда: {announceUsing.rewardsNow[index]}";
+        }
     }
 
     public void CheckRequire()
