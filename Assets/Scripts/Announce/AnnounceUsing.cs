@@ -111,9 +111,9 @@ public class AnnounceUsing : MonoBehaviour
                     cabbageImg.SetActive(true);
                     aboutItem = 'c';
                 }
-                announcesBlocks.SwapRequireText(b);
-                announcesBlocks.SwapRewardText(b, aboutItem);
             }
+            announcesBlocks.SwapRequireText(b);
+            announcesBlocks.SwapRewardText(b, aboutItem);
             infoAboutItem[z] = aboutItem;
         }
     }

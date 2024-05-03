@@ -261,7 +261,7 @@ public class PlantsUsing : MonoBehaviour
     {
         if (seedIndex == 3)
         {
-            objectsForBed.statsController.LevelFill(1.3f);
+            objectsForBed.statsController.LevelFill(0.3f);
             Destroy(GameObject.FindGameObjectWithTag("resultPlant"));
             int i = Random.Range(6, 9);
             for (int j = 0; j < i; j++)
@@ -274,7 +274,7 @@ public class PlantsUsing : MonoBehaviour
             SetStatusForBed(BedStatusController.Status.PLOW);
         } else if (seedIndex == 4)
         {
-            objectsForBed.statsController.LevelFill(0.6f);
+            objectsForBed.statsController.LevelFill(1.5f);
             Destroy(GameObject.FindGameObjectWithTag("resultPlant"));
             int i = Random.Range(6, 9);
             for (int j = 0; j < i; j++)
